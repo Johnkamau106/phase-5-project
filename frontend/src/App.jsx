@@ -6,6 +6,7 @@ import Splash from './components/screens/Splash/Splash';
 
 function App() {
   return <Splash />;
+  
 }
 
 export default App;

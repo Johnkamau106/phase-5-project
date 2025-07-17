@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -53,7 +54,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
       <section className="cta">
         <h3 className="cta-title">Ready to Make a Difference?</h3>
         <p className="cta-text">Join our community of caring individuals changing lives, one child at a time.</p>

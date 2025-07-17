@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 // import Navbar from './components/Navbar.jsx';
 import HomePage from './pages/home/HomePage.jsx';
 import Register from './pages/register.jsx';
+import Login from './pages/login.jsx';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </AuthProvider>

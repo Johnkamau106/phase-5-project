@@ -19,9 +19,24 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const login = async (email, password) => {
+    // Simulate login API call
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email && password) {
+          setUser({ email });
+          resolve({ email });
+        } else {
+          reject('Invalid login details');
+        }
+      }, 1000);
+    });
+  };
+
   const value = {
     user,
     register,
+    login,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

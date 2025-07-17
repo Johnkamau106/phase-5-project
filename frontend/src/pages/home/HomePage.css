@@ -1,0 +1,110 @@
+.homepage {
+    padding: 40px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .intro {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .subtitle {
+    max-width: 600px;
+    margin: 10px auto;
+    color: #555;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+  
+  .stat {
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .number {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .label {
+    color: #777;
+  }
+  
+  .homes {
+    margin: 40px 0;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .home-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .home-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+    background-color: #fafafa;
+  }
+  
+  .home-name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .location {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .progress {
+    font-size: 14px;
+    color: green;
+  }
+  
+  .cta {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .cta-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .cta-text {
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  .tagline {
+    font-style: italic;
+    color: #999;
+  }
+  

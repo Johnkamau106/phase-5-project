@@ -39,8 +39,8 @@ const HomePage = () => {
             <p className="location">Nairobi, Kenya — 45 children</p>
             <p className="description">Providing love, education, and hope since 2010.</p>
             <div className="card-buttons">
-            <Link to="/donations" className="btn">Donate</Link>
-             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+           <Link to={`/homes/1`} className="btn secondary">Visit Page</Link>
+
              </div>
           </div>
           <div className="home-card">
@@ -48,8 +48,8 @@ const HomePage = () => {
             <p className="location">Lagos, Nigeria — 28 children</p>
             <p className="description">Creating a safe environment where children can thrive.</p>
             <div className="card-buttons">
-            <Link to="/donations" className="btn">Donate</Link>
-             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+            <Link to={`/homes/2`} className="btn secondary">Visit Page</Link>
+
              </div>
           </div>
           <div className="home-card">
@@ -57,8 +57,8 @@ const HomePage = () => {
             <p className="location">Cape Town, South Africa — 62 children</p>
             <p className="description">Empowering children through education and community support.</p>
             <div className="card-buttons">
-            <Link to="/donations" className="btn">Donate</Link>
-             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+            <Link to={`/homes/3`} className="btn secondary">Visit Page</Link>
+
              </div>
           </div>
         </div>

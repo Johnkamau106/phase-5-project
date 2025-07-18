@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { CalendarDays, MapPin } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./HomeDetail.css"; // Combine styles here or import others as needed
+import "./HomeDetail.css"; // Your CSS file
 
 const donationOutlines = [
   {
@@ -31,16 +32,64 @@ const donationOutlines = [
   },
 ];
 
+const dummyHomes = {
+  1: {
+    name: "Sunshine Children's Haven",
+    location: "Nairobi, Kenya",
+    description: "Spreading love & education since 2010",
+    children: 45,
+    avatar: "/images/sunshine-avatar.jpg",
+    banner: "/images/sunshine-banner.jpg",
+  },
+  2: {
+    name: "Little Angels Home",
+    location: "Lagos, Nigeria",
+    description: "A safe and nurturing environment for every child",
+    children: 28,
+    avatar: "/images/angels-avatar.jpg",
+    banner: "/images/angels-banner.jpg",
+  },
+  3: {
+    name: "Hope & Dreams Sanctuary",
+    location: "Cape Town, South Africa",
+    description: "Empowering children through education and support",
+    children: 62,
+    avatar: "/images/hope-avatar.jpg",
+    banner: "/images/hope-banner.jpg",
+  },
+};
+
 const HomeDetail = () => {
+  const { id } = useParams();
+  const [home, setHome] = useState(null);
   const [visitDate, setVisitDate] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const openModal = (index) => setActiveIndex(index);
-  const closeModal = () => setActiveIndex(null);
+  useEffect(() => {
+    setHome(dummyHomes[id]);
+  }, [id]);
+
+  if (!home) return <div>Loading...</div>;
 
   return (
     <div className="home-detail-container">
-      {/* ====== Visit Section ====== */}
+      {/* Banner */}
+      <div className="home-banner">
+        <img src={home.banner} alt={`${home.name} banner`} className="banner-img" />
+      </div>
+
+      {/* Avatar + Basic Info */}
+      <div className="home-header">
+        <img src={home.avatar} alt={`${home.name} avatar`} className="avatar-img" />
+        <div className="home-meta">
+          <h2>{home.name}</h2>
+          <p><strong>Location:</strong> {home.location}</p>
+          <p><strong>Children:</strong> {home.children}</p>
+          <p><strong>Description:</strong> {home.description}</p>
+        </div>
+      </div>
+
+      {/* Visit Section */}
       <section className="visit-support-section">
         <h3 className="section-title">Visit & Support This Home</h3>
         <div className="visit-support-grid">
@@ -67,20 +116,20 @@ const HomeDetail = () => {
             <MapPin className="visit-icon" />
             <div className="visit-content">
               <h4>Location</h4>
-              <p>Sunshine House, Addis Ababa, Ethiopia</p>
+              <p>{home.location}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ====== Donation Section ====== */}
+      {/* Donation Section */}
       <section className="donations">
         <h3 className="section-title">How Your Donation Helps</h3>
         <p className="subtitle">Every contribution makes a real difference in a child’s life.</p>
         <ul className="donation-list">
           {donationOutlines.map((item, index) => (
             <li key={index} className="donation-item">
-              <button className="donation-button" onClick={() => openModal(index)}>
+              <button className="donation-button" onClick={() => setActiveIndex(index)}>
                 {item.title}
               </button>
             </li>
@@ -95,8 +144,8 @@ const HomeDetail = () => {
 
               <div className="donation-form">
                 <h5>Make a Donation</h5>
-                <p><strong>Sunshine House</strong></p>
-                <p>Bright Future Home, Addis Ababa, Ethiopia</p>
+                <p><strong>{home.name}</strong></p>
+                <p>{home.location}</p>
 
                 <label>Donation Amount ($)</label>
                 <input type="number" placeholder="Enter amount" />
@@ -114,7 +163,7 @@ const HomeDetail = () => {
                 </div>
 
                 <button className="donate-btn">Donate Now</button>
-                <button className="close-btn" onClick={closeModal}>Close</button>
+                <button className="close-btn" onClick={() => setActiveIndex(null)}>Close</button>
               </div>
             </div>
           </div>

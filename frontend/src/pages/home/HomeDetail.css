@@ -1,0 +1,53 @@
+.visit-support-section {
+    padding: 2rem;
+    background-color: #fef9f4; /* warm beige/cream */
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 2rem auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .visit-support-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #4b2e2e; /* warm brown */
+    text-align: center;
+  }
+  
+  .visit-support-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .visit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: #fff;
+    padding: 1rem 1.2rem;
+    border-radius: 0.8rem;
+    border-left: 5px solid #ffc107; /* playful yellow border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .visit-icon {
+    flex-shrink: 0;
+    color: #ff8c42;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .visit-content h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .visit-content p {
+    margin: 0.2rem 0 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  

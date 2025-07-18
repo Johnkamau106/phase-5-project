@@ -1,5 +1,6 @@
 import React from 'react';
 import './HomePage.css';
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -37,19 +38,28 @@ const HomePage = () => {
             <h4 className="home-name">Sunshine Children's Haven</h4>
             <p className="location">Nairobi, Kenya — 45 children</p>
             <p className="description">Providing love, education, and hope since 2010.</p>
-            <p className="progress">Donation Progress: $32,000 / $50,000 (64%)</p>
+            <div className="card-buttons">
+            <Link to="/donations" className="btn">Donate</Link>
+             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+             </div>
           </div>
           <div className="home-card">
             <h4 className="home-name">Little Angels Home</h4>
             <p className="location">Lagos, Nigeria — 28 children</p>
             <p className="description">Creating a safe environment where children can thrive.</p>
-            <p className="progress">Donation Progress: $28,500 / $35,000 (81%)</p>
+            <div className="card-buttons">
+            <Link to="/donations" className="btn">Donate</Link>
+             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+             </div>
           </div>
           <div className="home-card">
             <h4 className="home-name">Hope & Dreams Sanctuary</h4>
             <p className="location">Cape Town, South Africa — 62 children</p>
             <p className="description">Empowering children through education and community support.</p>
-            <p className="progress">Donation Progress: $45,000 / $75,000 (60%)</p>
+            <div className="card-buttons">
+            <Link to="/donations" className="btn">Donate</Link>
+             <Link to="/donations/donations.jsx" className="btn secondary">Visit Page</Link>
+             </div>
           </div>
         </div>
       </section>

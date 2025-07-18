@@ -44,61 +44,60 @@ const AuthForm = () => {
 
   return (
     <div className="auth-container">
-      <h2 className="auth-title">{isRegister ? 'Register' : 'Login'}</h2>
+      <h2 className="auth-title">{isRegister ? 'Create new account' : 'Log in'}</h2>
       {error && <p className="auth-error">{error}</p>}
       {success && <p className="auth-success">{success}</p>}
       <form onSubmit={handleSubmit} className="auth-form">
         {isRegister && (
-          <div className="form-group">
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="form-input"
-              required={isRegister}
-              autoComplete="username"
-            />
-          </div>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            className="form-input"
+            required={isRegister}
+            autoComplete="username"
+          />
         )}
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="form-input"
-            required
-            autoComplete="email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="form-input"
-            required
-            autoComplete={isRegister ? 'new-password' : 'current-password'}
-          />
-        </div>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Email address or phone number"
+          value={formData.email}
+          onChange={handleChange}
+          className="form-input"
+          required
+          autoComplete="email"
+        />
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="form-input"
+          required
+          autoComplete={isRegister ? 'new-password' : 'current-password'}
+        />
         <button type="submit" className="auth-button">
-          {isRegister ? 'Register' : 'Login'}
+          {isRegister ? 'Create new account' : 'Log in'}
         </button>
       </form>
+      {!isRegister && (
+        <p className="forgot-password">Forgotten password?</p>
+      )}
+      <p className="toggle-mode" onClick={() => {
+        setCurrentMode(isRegister ? 'login' : 'register');
+        setError('');
+        setSuccess('');
+        setFormData({ username: '', email: '', password: '' });
+      }}>
+        {isRegister ? 'Log in' : 'Create new account'}
+      </p>
     </div>
   );
 };

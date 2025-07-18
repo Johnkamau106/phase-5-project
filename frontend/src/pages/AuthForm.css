@@ -6,50 +6,37 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
 }
 
 .auth-title {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  text-align: center;
-  color: #1e40af;
+  color: #1877f2;
 }
 
 .auth-error {
-  color: #dc2626;
+  color: #f02849;
   margin-bottom: 1rem;
-  text-align: center;
   font-weight: 600;
 }
 
 .auth-success {
-  color: #16a34a;
+  color: #42b72a;
   margin-bottom: 1rem;
-  text-align: center;
   font-weight: 600;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-label {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #374151;
+  gap: 1rem;
 }
 
 .form-input {
   padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #dddfe2;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
@@ -57,12 +44,12 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  border-color: #1877f2;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.3);
 }
 
 .auth-button {
-  background-color: #2563eb;
+  background-color: #1877f2;
   color: white;
   padding: 0.75rem 1rem;
   font-size: 1.125rem;
@@ -74,5 +61,22 @@
 }
 
 .auth-button:hover {
-  background-color: #1e40af;
+  background-color: #165ec9;
+}
+
+.forgot-password {
+  margin-top: 1rem;
+  color: #1877f2;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.toggle-mode {
+  margin-top: 1.5rem;
+  color: #1877f2;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  user-select: none;
 }

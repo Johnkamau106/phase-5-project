@@ -1,0 +1,241 @@
+/* === Container === */
+.home-detail-container {
+  font-family: "Segoe UI", sans-serif;
+  padding: 2rem;
+  background: #fff9f4;
+  color: #4b2e2e;
+}
+
+/* === Header Section === */
+.home-header {
+  background-color: #ffe8d6;
+  border-left: 6px solid #ff914d;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(255, 145, 77, 0.1);
+  margin-bottom: 2rem;
+}
+
+.home-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #e76f51;
+}
+
+.home-header p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.3rem 0;
+}
+
+/* === Section Titles === */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #d35400;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #8b5e3c;
+}
+
+/* === Visit Section === */
+.visit-support-section {
+  background-color: #fff7ed;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.visit-support-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.visit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: #ffffff;
+  padding: 1.2rem;
+  border-left: 6px solid #ffb347;
+  border-radius: 0.8rem;
+  box-shadow: 0 3px 6px rgba(255, 179, 71, 0.15);
+}
+
+.visit-icon {
+  width: 28px;
+  height: 28px;
+  color: #fa824c;
+  flex-shrink: 0;
+}
+
+.visit-content h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.visit-content p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.date-picker-input {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+/* === Donations === */
+.donations {
+  background: #fff3e6;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(255, 145, 77, 0.05);
+}
+
+.donation-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.donation-button {
+  background: #ffb347;
+  color: #fff;
+  padding: 1rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 180px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.donation-button:hover {
+  background: #ff9933;
+  transform: translateY(-2px);
+}
+
+/* === Modal === */
+.donation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h4 {
+  color: #e76f51;
+  margin-bottom: 1rem;
+}
+
+.donation-form p {
+  margin: 0.3rem 0;
+  color: #555;
+}
+
+.donation-form input,
+.donation-form select {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.donate-btn {
+  background: #28a745;
+  color: white;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.close-btn {
+  background: #dc3545;
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.7rem;
+  width: 100%;
+}
+.home-banner {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: -60px;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.home-meta h2 {
+  margin: 0;
+}

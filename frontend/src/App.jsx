@@ -13,8 +13,8 @@ const App = () => {
     <div className="min-h-screen bg-gray-100">
       {/* <Navbar /> */}
       <Routes>
-        <Route path="splash/" element={<Splash />} />
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Splash />} />
+        <Route path="/homes" element={<HomePage />} />
         <Route path="/donations" element={<Donations />} />
         <Route path="/homes/:id" element={<HomeDetail />} />
       </Routes>

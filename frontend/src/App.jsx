@@ -2,6 +2,7 @@
 // src/App.jsx
 import React from 'react';
 import  { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { getUserFromLocalStorage } from './utils/auth.js'; 
 // import Navbar from './components/Navbar.jsx';
 import Donations from './pages/donations/Donations.jsx';
 import HomePage from './pages/home/HomePage.jsx';
@@ -12,26 +13,18 @@ import CaregiverDashboard from './pages/caregiver/CaregiverDashboard';
 import DonorDashboard from './pages/donor/DonorDashboard';
 import UserNavBar from './context/UserNavBar.jsx';
 
+const user = getUserFromLocalStorage(); // 👈 use here
+
+const renderDashboard = () => {
+  if (!user) return <Navigate to="/not-found" />;
+  if (user.roles.includes('admin')) return <AdminDashboard user={user} />;
+  if (user.roles.includes('caregiver')) return <CaregiverDashboard user={user} />;
+  if (user.roles.includes('donor')) return <DonorDashboard user={user} />;
+  return <Navigate to="/not-found" />;
+};
+
+
 const App = () => {
-  const userRole = localStorage.getItem('role'); // Simulated login role
-   const username = localStorage.getItem('username'); // Simulated username
-
-  const user = userRole ? { role: userRole, username } : null;
-
-  const renderDashboard = () => {
-    switch (userRole) {
-      case 'admin':
-        return <AdminDashboard user={user} />;
-      case 'caregiver':
-        return <CaregiverDashboard user={user} />;
-      case 'donor':
-        return <DonorDashboard user={user} />;
-      default:
-        return <Navigate to="/not-found" />;
-    }
-    
-  };
-  console.log('Role from localStorage:', userRole);
   return (
     <div className="min-h-screen bg-gray-100">
         {/* Show navbar only when logged in */}

@@ -1,5 +1,7 @@
 import React from 'react';
 import './HomePage.css';
+import dummyHomes from "./dummyhomes"; 
+import HomeCard from "../donor/HomeCard"; 
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
@@ -31,36 +33,13 @@ const HomePage = () => {
         </div>
       </section>
 
+
       <section className="homes">
         <h3 className="section-title">Featured Children's Homes</h3>
         <div className="home-list">
-          <div className="home-card">
-            <h4 className="home-name">Sunshine Children's Haven</h4>
-            <p className="location">Nairobi, Kenya — 45 children</p>
-            <p className="description">Providing love, education, and hope since 2010.</p>
-            <div className="card-buttons">
-           <Link to={`/homes/1`} className="btn secondary">Visit Page</Link>
-
-             </div>
-          </div>
-          <div className="home-card">
-            <h4 className="home-name">Little Angels Home</h4>
-            <p className="location">Lagos, Nigeria — 28 children</p>
-            <p className="description">Creating a safe environment where children can thrive.</p>
-            <div className="card-buttons">
-            <Link to={`/homes/2`} className="btn secondary">Visit Page</Link>
-
-             </div>
-          </div>
-          <div className="home-card">
-            <h4 className="home-name">Hope & Dreams Sanctuary</h4>
-            <p className="location">Cape Town, South Africa — 62 children</p>
-            <p className="description">Empowering children through education and community support.</p>
-            <div className="card-buttons">
-            <Link to={`/homes/3`} className="btn secondary">Visit Page</Link>
-
-             </div>
-          </div>
+          {Object.entries(dummyHomes).map(([id, home]) => (
+            <HomeCard key={id} home={home} id={id} />
+          ))}
         </div>
       </section>
 

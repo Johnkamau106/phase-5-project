@@ -10,20 +10,22 @@ import HomeDetail from './pages/home/HomeDetail.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CaregiverDashboard from './pages/caregiver/CaregiverDashboard';
 import DonorDashboard from './pages/donor/DonorDashboard';
+import UserNavBar from './context/UserNavBar.jsx';
 
 const App = () => {
   const userRole = localStorage.getItem('role'); // Simulated login role
-  
+   const username = localStorage.getItem('username'); // Simulated username
 
+  const user = userRole ? { role: userRole, username } : null;
 
   const renderDashboard = () => {
     switch (userRole) {
       case 'admin':
-        return <AdminDashboard />;
+        return <AdminDashboard user={user} />;
       case 'caregiver':
-        return <CaregiverDashboard />;
+        return <CaregiverDashboard user={user} />;
       case 'donor':
-        return <DonorDashboard />;
+        return <DonorDashboard user={user} />;
       default:
         return <Navigate to="/not-found" />;
     }
@@ -32,19 +34,30 @@ const App = () => {
   console.log('Role from localStorage:', userRole);
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* <Navbar /> */}
-      <Routes>
-        <Route path="/" element={<Splash />} />
-        <Route path="/homes" element={<HomePage />} />
-        <Route path="/donations" element={<Donations />} />
-        <Route path="/homes/:id" element={<HomeDetail />} />
+        {/* Show navbar only when logged in */}
+        {user && <UserNavBar user={user} />}
 
-        {/* Dashboards */}
-        <Route path="/dashboard" element={renderDashboard()} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/caregiver" element={<CaregiverDashboard />} />
-        <Route path="/donor" element={<DonorDashboard />} />
-      </Routes>
+
+        <Routes>
+          {/* Public route */}
+          <Route path="/" element={!user ? <Splash /> : <Navigate to="/home" />} />
+
+          {/* Private Routes - require login */}
+          {user ? (
+            <>
+              <Route path="/home" element={<HomePage user={user} />} />
+              <Route path="/homes/:id" element={<HomeDetail user={user} />} />
+              <Route path="/donations" element={<Donations user={user} />} />
+              <Route path="/dashboard" element={renderDashboard()} />
+              <Route path="/admin" element={<AdminDashboard user={user} />} />
+              <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
+              <Route path="/donor" element={<DonorDashboard user={user} />} />
+            </>
+          ) : (
+            // Redirect if not logged in
+            <Route path="*" element={<Navigate to="/" />} />
+          )}
+        </Routes>
     </div>
     
   );

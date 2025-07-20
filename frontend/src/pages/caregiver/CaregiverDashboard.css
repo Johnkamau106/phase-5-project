@@ -1,38 +1,227 @@
+/* Layout & Container */
 .caregiver-dashboard {
-  padding: 20px;
-  max-width: 900px;
+  padding: 80px 24px 40px; /* Top padding increased to avoid navbar overlap */
+  max-width: 1200px;
   margin: 0 auto;
+  background: linear-gradient(to right, #f7fafc, #edf2f7);
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
+/* Header */
 .caregiver-header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
 
+.caregiver-header h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  margin-bottom: 4px;
+}
+
+.caregiver-header p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin: 0;
+}
+
+.header-actions {
+  position: relative;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+  color: #2d3748;
+}
+
+.notification-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e53e3e;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+/* Navigation Tabs */
 .dashboard-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.dashboard-nav button {
-  padding: 0.5rem 1rem;
-  background-color: #edf2f7;
+.dashboard-nav button,
+.dropdown-nav > button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
   border: none;
+  background-color: #e2e8f0;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   transition: background-color 0.2s ease;
 }
 
-.dashboard-nav button:hover {
-  background-color: #e2e8f0;
+.dashboard-nav button.active,
+.dropdown-nav > button.active {
+  background-color: #4299e1;
+  color: white;
 }
 
-.dashboard-section {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+.dashboard-nav button:hover,
+.dropdown-nav > button:hover {
+  background-color: #cbd5e0;
+}
+
+/* Dropdown Menu */
+.dropdown-nav {
+  position: relative;
+}
+
+.dropdown-nav-menu {
+  display: none;
+  position: absolute;
+  top: 105%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.dropdown-nav:hover .dropdown-nav-menu {
+  display: block;
+}
+
+.dropdown-nav-menu button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-nav-menu button:hover {
+  background-color: #edf2f7;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+  margin-top: 10px;
+}
+
+/* Summary Cards */
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.summary-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.view-link {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #4299e1;
+}
+
+/* Section Expansion */
+.caregiver-section {
+  margin-bottom: 24px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  padding: 16px 20px;
+  background-color: #edf2f7;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-content {
+  padding: 20px;
+}
+
+.section-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: #3182ce;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
 }

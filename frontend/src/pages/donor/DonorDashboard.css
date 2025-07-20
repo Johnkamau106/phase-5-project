@@ -1,0 +1,11 @@
+.donor-dashboard {
+  padding: 2rem;
+  background-color: #e6fffa;
+  border-radius: 10px;
+}
+
+.donor-dashboard h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #234e52;
+}

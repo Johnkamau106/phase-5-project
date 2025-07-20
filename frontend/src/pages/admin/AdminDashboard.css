@@ -1,0 +1,58 @@
+.admin-dashboard {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-dashboard h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.summary-card {
+  background-color: #f7f9fc;
+  border-left: 5px solid #4a90e2;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin: 0;
+  color: #34495e;
+}
+
+.summary-card p {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin: 0.5rem 0 0;
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dashboard-nav button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-nav button:hover {
+  background-color: #2980b9;
+}

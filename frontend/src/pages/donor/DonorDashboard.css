@@ -1,11 +1,42 @@
 .donor-dashboard {
-  padding: 2rem;
-  background-color: #e6fffa;
-  border-radius: 10px;
+  padding: 20px;
+  background: #f9fbfd;
+  font-family: Arial, sans-serif;
 }
 
-.donor-dashboard h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #234e52;
+.donor-header {
+  background: #e0f7fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.donation-summary {
+  background: #fff;
+  padding: 15px;
+  border-left: 5px solid #4caf50;
+  margin-bottom: 20px;
+}
+
+.recent-donations ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.recent-donations li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.donate-btn {
+  background-color: #00796b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.donate-btn:hover {
+  background-color: #004d40;
 }

@@ -1,0 +1,36 @@
+.home-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+}
+
+.home-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.home-content {
+  padding: 1rem;
+}
+
+.home-content h4 {
+  margin: 0 0 0.5rem;
+}
+
+.home-location {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.home-description {
+  font-size: 0.95rem;
+  color: #444;
+}

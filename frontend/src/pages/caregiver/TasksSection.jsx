@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import './TasksSection.css'; // optional styling file
 
 const API_URL = 'http://localhost:5000/tasks'; // or your backend URL
 

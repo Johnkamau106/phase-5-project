@@ -26,15 +26,7 @@ const UserNavBar = ({ user }) => {
               onMouseEnter={() => toggleDropdown('admin')}
               onMouseLeave={() => toggleDropdown(null)}
             >
-              <span>Admin ▾</span>
-              {showDropdown === 'admin' && (
-                <ul className="dropdown-menu">
-                  <li><Link to="/admin">Admin Panel</Link></li>
-                  <li><Link to="/homes">Manage Homes</Link></li>
-                  <li><Link to="/events">Events Dashboard</Link></li>
-                  <li><Link to="/reports">Reports</Link></li>
-                </ul>
-              )}
+              <span><Link to="/admin">Admin</Link></span>
             </li>
           )}
 
@@ -45,15 +37,7 @@ const UserNavBar = ({ user }) => {
               onMouseEnter={() => toggleDropdown('caregiver')}
               onMouseLeave={() => toggleDropdown(null)}
             >
-              <span>Caregiver ▾</span>
-              {showDropdown === 'caregiver' && (
-                <ul className="dropdown-menu">
-                  <li><Link to="/caregiver">My Children</Link></li>
-                  <li><Link to="/enroll-child">Enroll Child</Link></li>
-                  <li><Link to="/records">Medical & Education Records</Link></li>
-                  <li><Link to="/children-directory">Children Directory</Link></li>
-                </ul>
-              )}
+              <span><Link to="/caregiver">Caregiver</Link></span>
             </li>
           )}
 
@@ -63,15 +47,7 @@ const UserNavBar = ({ user }) => {
             onMouseEnter={() => toggleDropdown('donor')}
             onMouseLeave={() => toggleDropdown(null)}
           >
-            <span>Donations ▾</span>
-            {showDropdown === 'donor' && (
-              <ul className="dropdown-menu">
-                <li><Link to="/donor">My Donations</Link></li>
-                <li><Link to="/sponsor">Sponsor a Child</Link></li>
-                <li><Link to="/my-sponsored-children">My Sponsored Children</Link></li>
-                <li><Link to="/volunteer">Volunteer / Visit Home</Link></li>
-              </ul>
-            )}
+            <span><Link to="/donor">Donor</Link></span>
           </li>
 
           {/* Universal */}

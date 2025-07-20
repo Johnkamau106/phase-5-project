@@ -1,23 +1,50 @@
 /* Layout & Container */
+.caregiver-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+  background-size: 400% 400%;
+  animation: animatedBackground 20s ease infinite;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes animatedBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .caregiver-dashboard {
-  padding: 80px 24px 40px; /* Top padding increased to avoid navbar overlap */
+  position: relative;
+  z-index: 1;
+  padding: 80px 24px 40px;
   max-width: 1200px;
   margin: 0 auto;
   background: linear-gradient(to right, #f7fafc, #edf2f7);
   min-height: 100vh;
   box-sizing: border-box;
+  overflow: hidden;
 }
-
 /* Header */
 .caregiver-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-bottom: 32px;
-  padding: 20px;
+  padding: 24px;
   background-color: white;
   border-radius: 16px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .caregiver-header h2 {
@@ -63,7 +90,7 @@
   justify-content: center;
   gap: 1rem;
   margin-bottom: 24px;
-  background: #fff;
+  background:white;
   padding: 16px 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);

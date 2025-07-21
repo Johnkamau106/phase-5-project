@@ -15,7 +15,9 @@ const SplashNavBar = () => {
         </ul>
       </div>
       <div className="navbar-right">
-        <button className="auth-button">Login / Register</button>
+        <button className="auth-button"><Link to="/login" className="auth-button">
+  Login / Register
+</Link></button>
       </div>
     </nav>
   );

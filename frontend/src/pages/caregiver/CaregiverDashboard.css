@@ -1,38 +1,290 @@
+/* Base Layout */
 .caregiver-dashboard {
-  padding: 20px;
-  max-width: 900px;
+  position: relative;
+  z-index: 1;
+  padding: 80px 24px 40px;
+  max-width: 1200px;
   margin: 0 auto;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Animated Gradient Background */
+.caregiver-dashboard::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(-45deg, #ffdde1, #f9f1f1, #e0c3fc, #fcb69f);
+  background-size: 400% 400%;
+  animation: backgroundLoop 30s ease infinite;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes backgroundLoop {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Header */
 .caregiver-header {
+  background: transparent;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  padding: 32px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
   text-align: center;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
+.header-content h2 {
+  font-size: 2.2rem;
+  color: #2d3748;
+  margin-bottom: 6px;
+}
+
+.header-content p {
+  font-size: 1.05rem;
+  color: #718096;
+}
+
+.header-actions {
+  position: relative;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #2d3748;
+  cursor: pointer;
+}
+
+.notification-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #e53e3e;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+/* Navigation */
 .dashboard-nav {
+  background-color: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 32px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
 }
 
-.dashboard-nav button {
-  padding: 0.5rem 1rem;
+.dashboard-nav button,
+.dropdown-nav > button {
+  padding: 0.7rem 1.4rem;
   background-color: #edf2f7;
+  color: #2d3748;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.dashboard-nav button:hover {
+.dashboard-nav button:hover,
+.dropdown-nav > button:hover {
   background-color: #e2e8f0;
 }
 
-.dashboard-section {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+.dashboard-nav button.active,
+.dropdown-nav > button.active {
+  background-color: #4299e1;
+  color: white;
 }
+
+/* Dropdown */
+.dropdown-nav {
+  position: relative;
+}
+
+.dropdown-nav-menu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  z-index: 10;
+  min-width: 220px;
+}
+
+.dropdown-nav:hover .dropdown-nav-menu {
+  display: block;
+}
+
+.dropdown-nav-menu button {
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  color: #2d3748;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.dropdown-nav-menu button:hover {
+  background-color: #f7fafc;
+}
+
+/* Summary Cards */
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.summary-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.summary-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.view-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #3182ce;
+}
+
+/* Sections */
+.caregiver-section {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 20px 24px;
+  background-color: #edf2f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.section-content {
+  padding: 24px;
+}
+
+.section-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #3182ce;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2b6cb0;
+}
+
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #2d3748;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e0;
+}
+
+/* Notification badge for dropdown */
+.notification-badge {
+  background-color: #e53e3e;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  margin-left: 8px;
+}
+@keyframes floatOrbs {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+}
+
+.floating-orb {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0));
+  border-radius: 50%;
+  animation: floatOrbs 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-orb:nth-child(1) { left: 10%; animation-delay: 0s; }
+.floating-orb:nth-child(2) { left: 30%; animation-delay: 4s; }
+.floating-orb:nth-child(3) { left: 50%; animation-delay: 2s; }
+.floating-orb:nth-child(4) { left: 70%; animation-delay: 6s; }
+.floating-orb:nth-child(5) { left: 90%; animation-delay: 1s; }

@@ -12,6 +12,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import CaregiverDashboard from './pages/caregiver/CaregiverDashboard';
 import DonorDashboard from './pages/donor/DonorDashboard';
 import UserNavBar from './context/UserNavBar.jsx';
+import Profile from './pages/profile/Profile'; 
 
 const user = getUserFromLocalStorage(); // 👈 use here
 
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/admin" element={<AdminDashboard user={user} />} />
               <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
               <Route path="/donor" element={<DonorDashboard user={user} />} />
+              <Route path="/profile" element={<Profile user={user} />} />
             </>
           ) : (
             // Redirect if not logged in

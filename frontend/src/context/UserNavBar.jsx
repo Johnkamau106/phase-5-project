@@ -58,7 +58,9 @@ const UserNavBar = ({ user }) => {
       </div>
 
       <div className="navbar-right">
-        <span>👋 {user?.username}</span>
+        <Link to="/profile" className="profile-link">
+          <span>👋 {user?.username}</span>
+        </Link>
         <button className="logout-button">Logout</button>
       </div>
     </nav>

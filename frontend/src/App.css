@@ -1,5 +1,25 @@
 /* App.css */
 
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+}
+
+.auth-button {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.auth-button:hover {
+  background-color: #166fe5;
+}
+
 body, html, #root {
   margin: 0;
   padding: 0;

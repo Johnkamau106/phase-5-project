@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './SplashNavBar.css';
 
 const SplashNavBar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
+
   return (
-    <nav className="splash-navbar">
+    <nav className={`splash-navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-left">
         <div className="logo">🏠Hope Haven</div>
         <ul className="nav-links">
@@ -15,7 +32,7 @@ const SplashNavBar = () => {
         </ul>
       </div>
       <div className="navbar-right">
-        <button className="auth-button">Login / Register</button>
+        <Link to="/login" className="auth-button">Login / Register</Link>
       </div>
     </nav>
   );

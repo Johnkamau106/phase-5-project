@@ -58,7 +58,7 @@ const UserNavBar = ({ user,onLogout }) => {
       </div>
 
       <div className="navbar-right">
-        <span><Link to={`/profile/${user?.id}`}>👋 {user?.username}</Link></span>
+        <span><Link to="/profile">👋 {user?.username}</Link></span>
         <button className="logout-button"onClick={onLogout}>Logout</button>
       </div>
     </nav>

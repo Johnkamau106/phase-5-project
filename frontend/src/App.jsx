@@ -16,6 +16,8 @@ import './App.css';
 
 const App = () => {
   const [user, setUser] = useState(() => getUserFromLocalStorage());
+  const [currentUser, setCurrentUser] = useState(() => getUserFromLocalStorage());
+
 
   const handleLogout = () => {
     setUser(null);
@@ -49,7 +51,7 @@ const App = () => {
             <Route path="/admin" element={<AdminDashboard user={user} />} />
             <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
             <Route path="/donor" element={<DonorDashboard user={user} />} />
-            <Route path="/profile" element={<Profile user={user} />} />
+            <Route path="/profile" element={<Profile user={currentUser} />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

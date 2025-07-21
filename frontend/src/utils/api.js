@@ -1,6 +1,4 @@
-// src/utils/api.js (or auth.js)
 export const loginUser = async ({ email, password }) => {
-  // Mock user database with complete profile information
   const mockUsers = {
     "admin@example.com": { 
       username: "admin_john",
@@ -34,25 +32,40 @@ export const loginUser = async ({ email, password }) => {
       bio: "Passionate about helping children in need",
       avatar: "https://i.pravatar.cc/150?img=3",
       token: "mock-donor-token-789"
+    },
+    "multi@example.com": {
+      username: "jane_super",
+      name: "Jane SuperUser",
+      email: "multi@example.com",
+      roles: ["admin", "caregiver"],
+      phone: "+1123581321",
+      address: "101 Super Lane, City",
+      bio: "Handles admin tasks and cares for kids",
+      avatar: "https://i.pravatar.cc/150?img=4",
+      token: "mock-superuser-token"
     }
   };
 
-  // Check credentials (in real app, this would be server-side)
-  if (mockUsers[email] && 
-     ((email === "admin@example.com" && password === "admin") ||
-      (email === "care@example.com" && password === "care") ||
-      (email === "donor@example.com" && password === "donor"))) {
-    return { 
-      success: true, 
-      user: mockUsers[email] 
+  // Match email + password combo
+  const validCredentials = {
+    "admin@example.com": "admin",
+    "care@example.com": "care",
+    "donor@example.com": "donor",
+    "multi@example.com": "superpass"
+  };
+
+  if (mockUsers[email] && validCredentials[email] === password) {
+    return {
+      success: true,
+      user: mockUsers[email]
     };
   }
-  return { 
-    success: false, 
-    message: "Invalid credentials" 
+
+  return {
+    success: false,
+    message: "Invalid credentials"
   };
 };
-
 export const registerUser = async ({ email, password }) => {
   // Mock registration - in a real app, this would create a new user
   return { 

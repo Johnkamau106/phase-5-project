@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import './AuthForm.css';
 
-const AuthForm = () => {
+const AuthForm = ({ mode }) => {
   const { register, login } = useAuth();
+  const navigate = useNavigate(); // 👈 This replaces window.location.href
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
   });
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [currentMode, setCurrentMode] = useState('register');
+  const [currentMode, setCurrentMode] = useState(mode || 'register');
+
+  useEffect(() => {
+    setCurrentMode(mode || 'register');
+    setError('');
+    setSuccess('');
+    setFormData({ username: '', email: '', password: '' });
+  }, [mode]);
 
   const isRegister = currentMode === 'register';
 
@@ -36,6 +47,7 @@ const AuthForm = () => {
         await login(formData.email, formData.password);
         setSuccess('Login successful!');
         setFormData({ username: '', email: '', password: '' });
+        navigate('/home'); // 👈 Navigate on successful login
       }
     } catch (err) {
       setError(err);
@@ -57,7 +69,7 @@ const AuthForm = () => {
             value={formData.username}
             onChange={handleChange}
             className="form-input"
-            required={isRegister}
+            required
             autoComplete="username"
           />
         )}
@@ -90,12 +102,15 @@ const AuthForm = () => {
       {!isRegister && (
         <p className="forgot-password">Forgotten password?</p>
       )}
-      <p className="toggle-mode" onClick={() => {
-        setCurrentMode(isRegister ? 'login' : 'register');
-        setError('');
-        setSuccess('');
-        setFormData({ username: '', email: '', password: '' });
-      }}>
+      <p
+        className="toggle-mode"
+        onClick={() => {
+          setCurrentMode(isRegister ? 'login' : 'register');
+          setError('');
+          setSuccess('');
+          setFormData({ username: '', email: '', password: '' });
+        }}
+      >
         {isRegister ? 'Log in' : 'Create new account'}
       </p>
     </div>

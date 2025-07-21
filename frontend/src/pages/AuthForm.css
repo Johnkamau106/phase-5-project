@@ -1,0 +1,82 @@
+.auth-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1877f2;
+}
+
+.auth-error {
+  color: #f02849;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.auth-success {
+  color: #42b72a;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1877f2;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.3);
+}
+
+.auth-button {
+  background-color: #1877f2;
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #165ec9;
+}
+
+.forgot-password {
+  margin-top: 1rem;
+  color: #1877f2;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.toggle-mode {
+  margin-top: 1.5rem;
+  color: #1877f2;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  user-select: none;
+}

@@ -1,9 +1,7 @@
-
 // src/App.jsx
-import React from 'react';
-import  { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { getUserFromLocalStorage } from './utils/auth.js'; 
-// import Navbar from './components/Navbar.jsx';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { getUserFromLocalStorage } from './utils/auth.js';
 import Donations from './pages/donations/Donations.jsx';
 import HomePage from './pages/home/HomePage.jsx';
 import Splash from './components/screens/Splash/Splash';
@@ -13,50 +11,52 @@ import CaregiverDashboard from './pages/caregiver/CaregiverDashboard';
 import DonorDashboard from './pages/donor/DonorDashboard';
 import UserNavBar from './context/UserNavBar.jsx';
 import Profile from './pages/profile/Profile'; 
-
-const user = getUserFromLocalStorage(); // 👈 use here
-
-const renderDashboard = () => {
-  if (!user) return <Navigate to="/not-found" />;
-  if (user.roles.includes('admin')) return <AdminDashboard user={user} />;
-  if (user.roles.includes('caregiver')) return <CaregiverDashboard user={user} />;
-  if (user.roles.includes('donor')) return <DonorDashboard user={user} />;
-  return <Navigate to="/not-found" />;
-};
-
+import AuthPage from './pages/login/Login'; // or your correct path
+import './App.css';
 
 const App = () => {
+  const [user, setUser] = useState(() => getUserFromLocalStorage());
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.clear();
+  };
+
+  const renderDashboard = () => {
+    if (!user) return <Navigate to="/not-found" />;
+    if (user.roles.includes('admin')) return <AdminDashboard user={user} />;
+    if (user.roles.includes('caregiver')) return <CaregiverDashboard user={user} />;
+    if (user.roles.includes('donor')) return <DonorDashboard user={user} />;
+    return <Navigate to="/not-found" />;
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-        {/* Show navbar only when logged in */}
-        {user && <UserNavBar user={user} />}
+      {user && <UserNavBar user={user} onLogout={handleLogout} />}
 
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Splash />} />
+        <Route path="/login" element={<AuthPage onLogin={setUser} />} />
 
-        <Routes>
-          {/* Public route */}
-          <Route path="/" element={!user ? <Splash /> : <Navigate to="/home" />} />
-
-          {/* Private Routes - require login */}
-          {user ? (
-            <>
-              <Route path="/home" element={<HomePage user={user} />} />
-              <Route path="/homes/:id" element={<HomeDetail user={user} />} />
-              <Route path="/donations" element={<Donations user={user} />} />
-              <Route path="/dashboard" element={renderDashboard()} />
-              <Route path="/admin" element={<AdminDashboard user={user} />} />
-              <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
-              <Route path="/donor" element={<DonorDashboard user={user} />} />
-              <Route path="/profile" element={<Profile user={user} />} />
-            </>
-          ) : (
-            // Redirect if not logged in
-            <Route path="*" element={<Navigate to="/" />} />
-          )}
-        </Routes>
+        {/* Private routes */}
+        {user ? (
+          <>
+            <Route path="/home" element={<HomePage user={user} />} />
+            <Route path="/homes/:id" element={<HomeDetail user={user} />} />
+            <Route path="/donations" element={<Donations user={user} />} />
+            <Route path="/dashboard" element={renderDashboard()} />
+            <Route path="/admin" element={<AdminDashboard user={user} />} />
+            <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
+            <Route path="/donor" element={<DonorDashboard user={user} />} />
+            <Route path="/profile" element={<Profile user={user} />} />
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/" />} />
+        )}
+      </Routes>
     </div>
-    
   );
 };
-
 
 export default App;

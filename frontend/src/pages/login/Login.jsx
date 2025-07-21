@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, registerUser } from '../../utils/api'; // adjust this
-import './AuthPage.css'; // Optional: add your custom styles
+import '../login/Login'; // Optional: add your custom styles
 
 const AuthPage = ({ onLogin }) => {
   const [tab, setTab] = useState('login');
@@ -34,7 +34,8 @@ const AuthPage = ({ onLogin }) => {
       }
 
       if (response.success) {
-        onLogin(response.user);
+        onLogin(response.user); // This sets the user in App state
+        localStorage.setItem('user', JSON.stringify(response.user)); // Store the whole user object
         navigate('/home');
       } else {
         setError(response.message || 'Authentication failed.');

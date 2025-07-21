@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './UserNavBar.css';
 
-const UserNavBar = ({ user }) => {
+const UserNavBar = ({ user,onLogout }) => {
   const [showDropdown, setShowDropdown] = useState(null);
   
   const toggleDropdown = (menu) => {
@@ -58,10 +58,8 @@ const UserNavBar = ({ user }) => {
       </div>
 
       <div className="navbar-right">
-        <Link to="/profile" className="profile-link">
-          <span>👋 {user?.username}</span>
-        </Link>
-        <button className="logout-button">Logout</button>
+        <span>👋 {user?.username}</span>
+        <button className="logout-button"onClick={onLogout}>Logout</button>
       </div>
     </nav>
   );

@@ -1,45 +1,11 @@
-from flask import Blueprint, request, jsonify
-from app import db
-from app.models import User
-from app.utils.jwt_helper import generate_token
+# app/routes/auth_routes.py
+from flask import Blueprint
+from flask_jwt_extended import jwt_required
+from app.controllers import auth_controller
 
-auth_bp = Blueprint("auth", __name__)
+auth_bp = Blueprint('auth_bp', __name__)
 
-@auth_bp.route("/login", methods=["POST"])
-def login():
-    data = request.json
-    email = data.get("email")
-    password = data.get("password")
-
-    user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
-        user_data = user.to_dict()
-        user_data["token"] = generate_token(user.id)
-        return jsonify({"success": True, "user": user_data})
-    return jsonify({"success": False, "message": "Invalid credentials"}), 401
-
-@auth_bp.route("/register", methods=["POST"])
-def register():
-    data = request.json
-    email = data.get("email")
-    password = data.get("password")
-
-    if User.query.filter_by(email=email).first():
-        return jsonify({"success": False, "message": "User already exists"}), 400
-
-    new_user = User(
-        email=email,
-        username=email.split("@")[0],
-        name="New User",
-        roles="donor",  # Default role
-        avatar="https://i.pravatar.cc/150?img=0"
-    )
-    new_user.set_password(password)
-
-    db.session.add(new_user)
-    db.session.commit()
-
-    user_data = new_user.to_dict()
-    user_data["token"] = generate_token(new_user.id)
-
-    return jsonify({"success": True, "user": user_data}), 201
+auth_bp.route('/login', methods=['POST'])(auth_controller.login)
+auth_bp.route('/register', methods=['POST'])(auth_controller.register)
+auth_bp.route('/refresh', methods=['POST'])(auth_controller.refresh)
+auth_bp.route('/protected', methods=['GET'])(jwt_required())(auth_controller.protected)

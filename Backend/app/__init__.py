@@ -1,24 +1,24 @@
+# app/__init__.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_cors import CORS
-from dotenv import load_dotenv
-import os
-
-db = SQLAlchemy()
-migrate = Migrate()
+from app.config import Config
+from app.extensions import db, migrate, jwt, cors
+from app.routes import user_routes, auth_routes
 
 def create_app():
-    load_dotenv()
-
     app = Flask(__name__)
-    app.config.from_object("config.Config")
+    app.config.from_object(Config)
 
+    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app)
+    jwt.init_app(app)
+    cors.init_app(app)
 
-    from .routes.auth_routes import auth_bp
-    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    # Register blueprints
+    app.register_blueprint(user_routes.user_bp, url_prefix='/api')
+    app.register_blueprint(auth_routes.auth_bp, url_prefix='/auth')
+
+    with app.app_context():
+        db.create_all()
 
     return app

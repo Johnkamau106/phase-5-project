@@ -24,6 +24,7 @@ class User(db.Model):
 
     def to_dict(self):
         return {
+            "id": self.id,
             "email": self.email,
             "username": self.username,
             "name": self.name,

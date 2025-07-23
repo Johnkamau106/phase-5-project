@@ -1,45 +1,39 @@
-// src/pages/caregiver/ChildrenList.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ChildrenList.css';
-
-const children = [
-  {
-    id: 1,
-    name: 'Amani Mwangi',
-    birthdate: '2015-06-12',
-    age: 9,
-    gender: 'Male',
-    photo: 'https://childrens-hope-home.org/wp-content/uploads/2023/08/children-playing-hopehome.jpg',
-    healthStatus: 'Good',
-    notes: 'Loves drawing and math.',
-    home: 'Hope Children’s Home',
-  },
-  {
-    id: 2,
-    name: 'Neema Wanjiru',
-    birthdate: '2016-09-30',
-    age: 8,
-    gender: 'Female',
-    photo: 'https://childrens-hope-home.org/wp-content/uploads/2023/08/children-playing-hopehome.jpg',
-    healthStatus: 'Needs Dental Checkup',
-    notes: 'Allergic to peanuts. Very playful.',
-    home: 'Hope Children’s Home',
-  },
-  {
-    id: 3,
-    name: 'Brian Otieno',
-    birthdate: '2014-02-18',
-    age: 10,
-    gender: 'Male',
-    photo: 'https://childrens-hope-home.org/wp-content/uploads/2023/08/children-playing-hopehome.jpg',
-    healthStatus: 'Good',
-    notes: 'Shy but improving in reading.',
-    home: 'Hope Children’s Home',
-  },
-];
+import { BASE_URL } from '../../utils/api';
 
 const ChildrenList = () => {
   const [view, setView] = useState('table'); // 'table' or 'card'
+  const [children, setChildren] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchChildren = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/children`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setChildren(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChildren();
+  }, []);
+
+  if (loading) {
+    return <div>Loading children...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="children-list">
@@ -53,7 +47,9 @@ const ChildrenList = () => {
         </button>
       </div>
 
-      {view === 'table' ? (
+      {children.length === 0 ? (
+        <p>No children found.</p>
+      ) : view === 'table' ? (
         <table className="children-table">
           <thead>
             <tr>

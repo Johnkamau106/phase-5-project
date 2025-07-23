@@ -26,6 +26,10 @@ const App = () => {
 
   const renderDashboard = () => {
     if (!user) return <Navigate to="/not-found" />;
+    if (!user.roles || !Array.isArray(user.roles)) {
+      console.error("User object does not have a valid 'roles' array:", user);
+      return <Navigate to="/not-found" />;
+    }
     if (user.roles.includes('admin')) return <AdminDashboard user={user} />;
     if (user.roles.includes('caregiver')) return <CaregiverDashboard user={user} />;
     if (user.roles.includes('donor')) return <DonorDashboard user={user} />;

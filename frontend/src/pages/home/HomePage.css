@@ -1,6 +1,6 @@
 .homepage {
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #f9f9ff 0%, #f0f4ff 100%);
   color: #2a2a72;
   min-height: 100vh;
@@ -19,26 +19,36 @@
 }
 
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .intro::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 30%);
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 30%
+  );
 }
 
 .title {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   background: linear-gradient(90deg, #ffffff, #f8f8f8);
   -webkit-background-clip: text;
@@ -51,7 +61,7 @@
   margin: 0 auto 2rem;
   font-size: 1.2rem;
   line-height: 1.6;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   position: relative;
 }
 
@@ -68,14 +78,14 @@
 }
 
 .stat {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
   padding: 30px 25px;
   border-radius: 16px;
   min-width: 180px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -83,11 +93,11 @@
 
 .stat:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
 .stat::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -95,17 +105,21 @@
   height: 200%;
   background: linear-gradient(
     to bottom right,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.1) 50%,
-    rgba(255,255,255,0) 100%
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
   animation: shine 3s infinite;
 }
 
 @keyframes shine {
-  0% { transform: translateX(-100%) rotate(30deg); }
-  100% { transform: translateX(100%) rotate(30deg); }
+  0% {
+    transform: translateX(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(30deg);
+  }
 }
 
 .number {
@@ -142,7 +156,7 @@
 }
 
 .section-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 0;
@@ -163,7 +177,7 @@
   background: white;
   border-radius: 16px;
   padding: 30px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: none;
   position: relative;
@@ -172,11 +186,11 @@
 
 .home-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .home-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -202,7 +216,7 @@
 }
 
 .location::before {
-  content: '📍';
+  content: "📍";
 }
 
 .description {
@@ -233,7 +247,7 @@
 }
 
 .cta::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -268,7 +282,7 @@
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
@@ -277,7 +291,7 @@
 
 .cta-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .tagline {
@@ -288,16 +302,23 @@
   position: relative;
 }
 
-.tagline::before, .tagline::after {
-  content: '❤️';
+.tagline::before,
+.tagline::after {
+  content: "❤️";
   margin: 0 10px;
 }
 
 /* Floating hearts animation */
 @keyframes float {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(10deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 .floating-heart {
@@ -312,18 +333,18 @@
   .title {
     font-size: 2.5rem;
   }
-  
+
   .stats {
     flex-direction: column;
     align-items: center;
     margin-top: -20px;
   }
-  
+
   .stat {
     width: 100%;
     max-width: 300px;
   }
-  
+
   .home-list {
     grid-template-columns: 1fr;
   }

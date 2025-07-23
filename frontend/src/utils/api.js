@@ -51,7 +51,7 @@ export const loginUser = async ({ email, password }) => {
     "admin@example.com": "admin",
     "care@example.com": "care",
     "donor@example.com": "donor",
-    "multi@example.com": "superpass"
+    "multi@example.com": "multi"
   };
 
   if (mockUsers[email] && validCredentials[email] === password) {

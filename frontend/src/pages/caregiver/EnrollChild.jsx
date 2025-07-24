@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../utils/api';
 import './CaregiverDashboard.css';
 
+
 const EnrollChild = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -25,19 +26,32 @@ const EnrollChild = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/api/children`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      navigate('/caregiver');
-    } catch (error) {
-      setError(error.message);
+    // Split name into first and last name
+    const [firstName, ...lastNameArr] = formData.name.trim().split(" ");
+    const payload = {
+      first_name: firstName || formData.name,
+      last_name: lastNameArr.join(" ") || "",
+      date_of_birth: formData.birthdate,
+      gender: formData.gender,
+      home_id: Number(formData.home), // must be an integer ID
+      photo: formData.photo,
+      health_status: formData.health_status,
+      background: formData.notes,
+    };
+
+    const response = await fetch(`${BASE_URL}/api/children`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+    navigate('/caregiver');
+  } catch (error) {
+    setError(error.message);
+  }
+};
 
   return (
     <div className="caregiver-dashboard">

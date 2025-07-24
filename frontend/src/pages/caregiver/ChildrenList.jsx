@@ -73,7 +73,7 @@ const ChildrenList = () => {
                 <td>{child.age}</td>
                 <td>{child.gender}</td>
                 <td>{child.healthStatus}</td>
-                <td>{child.home}</td>
+                <td>{child.home ? child.home.name : ""}</td>
                 <td>{child.notes}</td>
                 <td>
                   <button className="btn-view">View</button>

@@ -83,7 +83,7 @@
 //     }
 //   };
 // };
-export const BASE_URL = "http://localhost:5555"; // Change if deployed
+export const BASE_URL = "http://localhost:5000"; // Change if deployed
 
 export const loginUser = async ({ email, password }) => {
   try {
@@ -98,7 +98,11 @@ export const loginUser = async ({ email, password }) => {
     const data = await response.json();
 
     if (response.ok) {
-      return { success: true, user: data.user, token: data.token };
+      const user = data.user;
+      if (user && !Array.isArray(user.roles)) {
+        user.roles = []; // Ensure roles is an array
+      }
+      return { success: true, user: user, token: data.token };
     } else {
       return { success: false, message: data.message || "Login failed" };
     }
@@ -120,7 +124,11 @@ export const registerUser = async ({ email, password }) => {
     const data = await response.json();
 
     if (response.ok) {
-      return { success: true, user: data.user, token: data.token };
+      const user = data.user;
+      if (user && !Array.isArray(user.roles)) {
+        user.roles = []; // Ensure roles is an array
+      }
+      return { success: true, user: user, token: data.token };
     } else {
       return { success: false, message: data.message || "Registration failed" };
     }

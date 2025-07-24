@@ -33,7 +33,7 @@ def register():
         email=email,
         username=email.split("@")[0],
         name="New User",
-        roles="donor",  # Default role
+        roles="donor",
         avatar="https://i.pravatar.cc/150?img=0"
     )
     new_user.set_password(password)

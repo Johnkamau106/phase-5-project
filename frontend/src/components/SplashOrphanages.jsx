@@ -5,7 +5,7 @@ const orphanages = [
   {
     id: 1,
     name: "Hope Haven",
-    image: "/images/orphanage1.jpg",
+    image: "https://images.squarespace-cdn.com/content/v1/60fc84fbbfbe1c4483f8bf55/56b8dfa6-7458-4998-8957-6bdc0fb502bd/444.jpg",
     need: "School Supplies",
     urgency: "Urgent",
     description: "Providing shelter and education to 45 children affected by poverty and abandonment.",
@@ -15,7 +15,7 @@ const orphanages = [
   {
     id: 2,
     name: "Bright Futures Home",
-    image: "/images/orphanage2.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZVXhsSfa09UF4MiQ9KzRrW4ZEc-JAdQPNw&s",
     need: "Food & Nutrition",
     urgency: "High",
     description: "Supporting 60 children with balanced meals and nutrition programs.",
@@ -25,7 +25,7 @@ const orphanages = [
   {
     id: 3,
     name: "Joy Children's Centre",
-    image: "/images/orphanage3.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmHKVezYLUevn2dIKyK4qu-uH4e8qasKp5fw&s",
     need: "Medical Supplies",
     urgency: "Urgent",
     description: "Providing essential medical care and vaccinations to 30 children.",
@@ -35,7 +35,7 @@ const orphanages = [
   {
     id: 4,
     name: "Sunrise Orphanage",
-    image: "/images/orphanage4.jpg",
+    image: "https://www.mod.go.ke/wp-content/uploads/2025/06/1a5328a2-1ca8-448d-b75e-e412214e3cb5.jpeg",
     need: "School Fees",
     urgency: "Moderate",
     description: "Helping 50 children stay in school through education sponsorships.",

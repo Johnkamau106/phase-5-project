@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './CaregiverDashboard.css';
 import ChildrenList from './ChildrenList';
 import TasksSection from './TasksSection';
@@ -9,8 +9,8 @@ import EducationRecords from './EducationRecords';
 import ChildrenDirectory from './ChildrenDirectory';
 
 const CaregiverDashboard = ({ user }) => {
-  const [activeSection, setActiveSection] = useState('summary');
-  const [expandedChildren, setExpandedChildren] = useState(false);
+  const [activeSection, setActiveSection] = useState('children');
+  const [expandedChildren, setExpandedChildren] = useState(true);
   const [expandedTasks, setExpandedTasks] = useState(false);
   const [expandedProfile, setExpandedProfile] = useState(false);
   const [expandedMedical, setExpandedMedical] = useState(false);
@@ -21,6 +21,7 @@ const CaregiverDashboard = ({ user }) => {
     medical: 2,
     education: 1
   });
+  const navigate = useNavigate();
 
   const toggleSection = (section) => {
     // Reset all expanded states
@@ -69,9 +70,9 @@ const CaregiverDashboard = ({ user }) => {
               <div className="section-content">
                 <ChildrenList caregiverId={user.id} />
                 <div className="section-actions">
-                  <Link to="/caregiver/enroll" className="btn-primary">
+                  <button onClick={() => navigate('/caregiver/enroll')} className="btn-primary">
                     <i className="fas fa-plus"></i> Enroll New Child
-                  </Link>
+                  </button>
                   <button className="btn-secondary">
                     <i className="fas fa-file-export"></i> Export List
                   </button>
@@ -131,37 +132,7 @@ const CaregiverDashboard = ({ user }) => {
       // ... (keep existing tasks and profile sections) ...
 
       default:
-        return (
-          <section className="dashboard-summary">
-            <div className="summary-card" onClick={() => toggleSection('children')}>
-              <div className="card-icon">👶</div>
-              <h3>My Children</h3>
-              <p className="summary-value">8</p>
-              <span className="view-link">View all →</span>
-            </div>
-            
-            <div className="summary-card" onClick={() => toggleSection('medical')}>
-              <div className="card-icon">🏥</div>
-              <h3>Medical Records</h3>
-              <p className="summary-value">{notifications.medical} updates</p>
-              <span className="view-link">View →</span>
-            </div>
-            
-            <div className="summary-card" onClick={() => toggleSection('education')}>
-              <div className="card-icon">📚</div>
-              <h3>Education Records</h3>
-              <p className="summary-value">{notifications.education} new</p>
-              <span className="view-link">View →</span>
-            </div>
-            
-            <div className="summary-card" onClick={() => toggleSection('directory')}>
-              <div className="card-icon">👥</div>
-              <h3>Directory</h3>
-              <p className="summary-value">24 children</p>
-              <span className="view-link">View →</span>
-            </div>
-          </section>
-        );
+        return <ChildrenList caregiverId={user.id} />;
     }
   };
 

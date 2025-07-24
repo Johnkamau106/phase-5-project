@@ -12,6 +12,8 @@ import DonorDashboard from './pages/donor/DonorDashboard';
 import UserNavBar from './context/UserNavBar.jsx';
 import Profile from './pages/profile/Profile'; 
 import AuthPage from './pages/login/Login'; // or your correct path
+import EventsPage from './pages/events/EventsPage';
+import EnrollChild from './pages/caregiver/EnrollChild';
 import './App.css';
 
 const App = () => {
@@ -54,8 +56,10 @@ const App = () => {
             <Route path="/dashboard" element={renderDashboard()} />
             <Route path="/admin" element={<AdminDashboard user={user} />} />
             <Route path="/caregiver" element={<CaregiverDashboard user={user} />} />
+            <Route path="/caregiver/enroll" element={<EnrollChild />} />
             <Route path="/donor" element={<DonorDashboard user={user} />} />
             <Route path="/profile" element={<Profile user={currentUser} />} />
+            <Route path="/events" element={<EventsPage />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

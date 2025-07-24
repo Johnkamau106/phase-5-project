@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import './HomePage.css';
-import dummyHomes from "./dummyhomes"; 
+// import dummyHomes from "./dummyhomes";
 import HomeCard from "../donor/HomeCard"; 
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../utils/api";
 
 const HomePage = () => {
+  const [homes, setHomes] = useState([]);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/homes`)
+      .then(res => res.json())
+      .then(data => setHomes(data))
+      .catch(err => console.error(err));
+  }, []);
   return (
     <div className="homepage">
       <section className="intro">
@@ -37,8 +46,8 @@ const HomePage = () => {
       <section className="homes">
         <h3 className="section-title">Featured Children's Homes</h3>
         <div className="home-list">
-          {Object.entries(dummyHomes).map(([id, home]) => (
-            <HomeCard key={id} home={home} id={id} />
+          {homes.map(home => (
+            <HomeCard key={home.id} home={home} id={home.id} />
           ))}
         </div>
       </section>

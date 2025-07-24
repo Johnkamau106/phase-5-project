@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { CalendarDays, MapPin } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./HomeDetail.css"; // Your CSS file
+import "./HomeDetail.css";
+import { BASE_URL } from "../../utils/api";
 
 const donationOutlines = [
   {
@@ -32,62 +33,81 @@ const donationOutlines = [
   },
 ];
 
-const dummyHomes = {
-  1: {
-    name: "Sunshine Children's Haven",
-    location: "Nairobi, Kenya",
-    description: "Spreading love & education since 2010",
-    children: 45,
-    avatar: "/images/sunshine-avatar.jpg",
-    banner: "/images/sunshine-banner.jpg",
-  },
-  2: {
-    name: "Little Angels Home",
-    location: "Lagos, Nigeria",
-    description: "A safe and nurturing environment for every child",
-    children: 28,
-    avatar: "/images/angels-avatar.jpg",
-    banner: "/images/angels-banner.jpg",
-  },
-  3: {
-    name: "Hope & Dreams Sanctuary",
-    location: "Cape Town, South Africa",
-    description: "Empowering children through education and support",
-    children: 62,
-    avatar: "/images/hope-avatar.jpg",
-    banner: "/images/hope-banner.jpg",
-  },
-};
-
 const HomeDetail = () => {
   const { id } = useParams();
   const [home, setHome] = useState(null);
   const [visitDate, setVisitDate] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    setHome(dummyHomes[id]);
+    fetch(`${BASE_URL}/api/homes/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch home details");
+        return res.json();
+      })
+      .then(data => {
+        setHome(data);
+        setError(false);
+      })
+      .catch(() => setError(true));
   }, [id]);
 
+  if (error) return <div>Error loading home details. Please try again later.</div>;
   if (!home) return <div>Loading...</div>;
 
+  // Parse needs if present
+    let needsList = [];
+    if (Array.isArray(home.needs)) {
+      needsList = home.needs.filter(Boolean);
+    } else if (typeof home.needs === "string") {
+      needsList = home.needs.split(",").map(n => n.trim()).filter(Boolean);
+    }
   return (
     <div className="home-detail-container">
       {/* Banner */}
-      <div className="home-banner">
-        <img src={home.banner} alt={`${home.name} banner`} className="banner-img" />
-      </div>
+      {home.banner && (
+        <div className="home-banner">
+          <img src={home.banner} alt={`${home.name} banner`} className="banner-img" />
+        </div>
+      )}
 
       {/* Avatar + Basic Info */}
       <div className="home-header">
-        <img src={home.avatar} alt={`${home.name} avatar`} className="avatar-img" />
+        <img src={home.logo || home.avatar} alt={`${home.name} logo`} className="avatar-img" />
         <div className="home-meta">
           <h2>{home.name}</h2>
           <p><strong>Location:</strong> {home.location}</p>
+          {home.address && <p><strong>Address:</strong> {home.address}</p>}
+          {home.phone && <p><strong>Phone:</strong> {home.phone}</p>}
+          {home.email && <p><strong>Email:</strong> <a href={`mailto:${home.email}`}>{home.email}</a></p>}
+          {home.website && <p><strong>Website:</strong> <a href={home.website} target="_blank" rel="noopener noreferrer">{home.website}</a></p>}
+          {home.capacity !== undefined && <p><strong>Capacity:</strong> {home.capacity}</p>}
           <p><strong>Children:</strong> {home.children}</p>
           <p><strong>Description:</strong> {home.description}</p>
+          {needsList.length > 0 && (
+            <div>
+              <strong>Needs:</strong>
+              <ul>
+                {needsList.map((need, idx) => <li key={idx}>{need}</li>)}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Bank Details */}
+      {(home.bank_name || home.account_name || home.account_number || home.branch) && (
+        <div className="bank-details">
+          <h4>Bank Details for Donations</h4>
+          <ul>
+            {home.bank_name && <li><strong>Bank Name:</strong> {home.bank_name}</li>}
+            {home.account_name && <li><strong>Account Name:</strong> {home.account_name}</li>}
+            {home.account_number && <li><strong>Account Number:</strong> {home.account_number}</li>}
+            {home.branch && <li><strong>Branch:</strong> {home.branch}</li>}
+          </ul>
+        </div>
+      )}
 
       {/* Visit Section */}
       <section className="visit-support-section">

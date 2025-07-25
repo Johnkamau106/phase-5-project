@@ -1,7 +1,8 @@
 import React from "react";
+import "./Admin.css";
 
 const AdminHomes = () => (
-  <div>
+  <div className="admin-page">
     <h3>🏠 Manage Homes</h3>
     {/* Replace with real homes table */}
     <table>

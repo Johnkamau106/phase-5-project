@@ -10,7 +10,7 @@ class Child(db.Model):
     health_status = db.Column(db.String(100))
     notes = db.Column(db.Text)
     home = db.Column(db.String(100))
-
+    
     def to_dict(self):
         return {
             "id": self.id,

@@ -1,7 +1,8 @@
 import React from "react";
+import "./Admin.css";
 
 const AdminReports = () => (
-  <div>
+  <div className="admin-page">
     <h3>📋 Case Reports</h3>
     {/* Replace with real reports table */}
     <table>

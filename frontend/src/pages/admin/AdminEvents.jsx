@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../utils/api";
+import "./Admin.css";
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -91,19 +92,19 @@ const AdminEvents = () => {
   };
 
   if (loading) {
-    return <div>Loading events...</div>;
+    return <div className="admin-page">Loading events...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div className="admin-page">Error: {error.message}</div>;
   }
 
   return (
-    <div>
+    <div className="admin-page">
       <h3>📅 Events</h3>
 
       {/* Add New Event Form */}
-      <div className="add-event-form">
+      <div className="add-item-form">
         <h4>{editingEvent ? "Edit Event" : "Add New Event"}</h4>
         <input
           type="text"

@@ -1,7 +1,8 @@
 import React from "react";
+import "./Admin.css";
 
 const AdminDonations = () => (
-  <div>
+  <div className="admin-page">
     <h3>💰 View Donations</h3>
     {/* Replace with real donations table */}
     <table>

@@ -5,7 +5,7 @@ import {
   updateUser,
   deleteUser,
 } from "../../utils/authserver";
-import "./AdminDashboard.css";
+import "./Admin.css";
 
 const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
   const [users, setUsers] = useState([]);
@@ -20,7 +20,6 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
     password: "",
   });
 
-  // Available roles for selection
   const availableRoles = ["admin", "donor", "caregiver", "manager"];
 
   useEffect(() => {
@@ -84,10 +83,8 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
     e.preventDefault();
     try {
       if (editingUser) {
-        // Update existing user
         await updateUser(editingUser.id, formData);
       } else {
-        // Create new user
         await createUser(formData);
       }
       await fetchUsers();
@@ -111,25 +108,24 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
   };
 
   return (
-    <div className={`admin-section ${expanded ? "expanded" : ""}`}>
-      <div className="section-header" onClick={() => toggleSection("users")}>
+    <div className="admin-page">
+      <div onClick={() => toggleSection("users")}>
         <h3>👥 Manage Users {expanded ? "▴" : "▾"}</h3>
       </div>
 
       {expanded && (
-        <div className="section-content">
+        <div>
           {loading ? (
             <p>Loading users...</p>
           ) : error ? (
-            <p className="error-message">{error}</p>
+            <p>{error}</p>
           ) : (
             <>
-              {/* User Form (for add/edit) */}
               {(editingUser || showAddForm) && (
-                <form onSubmit={handleSubmit} className="user-form">
+                <form onSubmit={handleSubmit} className="add-item-form">
                   <h4>{editingUser ? "Edit User" : "Add New User"}</h4>
 
-                  <div className="form-group">
+                  <div>
                     <label>Name:</label>
                     <input
                       type="text"
@@ -140,7 +136,7 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div>
                     <label>Email:</label>
                     <input
                       type="email"
@@ -153,7 +149,7 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                   </div>
 
                   {!editingUser && (
-                    <div className="form-group">
+                    <div>
                       <label>Password:</label>
                       <input
                         type="password"
@@ -166,9 +162,9 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                     </div>
                   )}
 
-                  <div className="form-group">
+                  <div>
                     <label>Roles:</label>
-                    <div className="roles-checkboxes">
+                    <div>
                       {availableRoles.map((role) => (
                         <label key={role}>
                           <input
@@ -184,14 +180,13 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                     </div>
                   </div>
 
-                  <div className="form-actions">
-                    <button type="submit" className="btn-save">
+                  <div>
+                    <button type="submit">
                       {editingUser ? "Update" : "Create"} User
                     </button>
                     <button
                       type="button"
                       onClick={handleCancel}
-                      className="btn-cancel"
                     >
                       Cancel
                     </button>
@@ -199,11 +194,10 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                 </form>
               )}
 
-              {/* Users Table */}
               {users.length === 0 ? (
                 <p>No users found.</p>
               ) : (
-                <table className="users-table">
+                <table>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -218,16 +212,14 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                         <td>{user.name || "Unnamed User"}</td>
                         <td>{user.email || "N/A"}</td>
                         <td>{user.roles?.join(", ") || "N/A"}</td>
-                        <td className="actions">
+                        <td>
                           <button
                             onClick={() => handleEdit(user)}
-                            className="edit-btn"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(user.id)}
-                            className="delete-btn"
                           >
                             Delete
                           </button>
@@ -238,11 +230,9 @@ const AdminUsers = ({ expanded, toggleSection, onUserCountChange }) => {
                 </table>
               )}
 
-              {/* Add New User Button (only shown when not in edit/add mode) */}
               {!editingUser && !showAddForm && (
                 <button
                   onClick={() => setShowAddForm(true)}
-                  className="add-new-btn"
                 >
                   + Add New User
                 </button>

@@ -1,72 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './SplashOrphanages.css';
-
-const orphanages = [
-  {
-    id: 1,
-    name: "Hope Haven",
-    image: "https://images.squarespace-cdn.com/content/v1/60fc84fbbfbe1c4483f8bf55/56b8dfa6-7458-4998-8957-6bdc0fb502bd/444.jpg",
-    need: "School Supplies",
-    urgency: "Urgent",
-    description: "Providing shelter and education to 45 children affected by poverty and abandonment.",
-    raised: 8250,
-    goal: 15000
-  },
-  {
-    id: 2,
-    name: "Bright Futures Home",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFZVXhsSfa09UF4MiQ9KzRrW4ZEc-JAdQPNw&s",
-    need: "Food & Nutrition",
-    urgency: "High",
-    description: "Supporting 60 children with balanced meals and nutrition programs.",
-    raised: 5600,
-    goal: 10000
-  },
-  {
-    id: 3,
-    name: "Joy Children's Centre",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmHKVezYLUevn2dIKyK4qu-uH4e8qasKp5fw&s",
-    need: "Medical Supplies",
-    urgency: "Urgent",
-    description: "Providing essential medical care and vaccinations to 30 children.",
-    raised: 3000,
-    goal: 7500
-  },
-  {
-    id: 4,
-    name: "Sunrise Orphanage",
-    image: "https://www.mod.go.ke/wp-content/uploads/2025/06/1a5328a2-1ca8-448d-b75e-e412214e3cb5.jpeg",
-    need: "School Fees",
-    urgency: "Moderate",
-    description: "Helping 50 children stay in school through education sponsorships.",
-    raised: 4200,
-    goal: 10000
-  }
-];
+import { BASE_URL } from '../utils/api';
 
 const SplashOrphanages = () => {
+  const [orphanages, setOrphanages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOrphanages = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homes`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setOrphanages(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrphanages();
+  }, []);
+
+  if (loading) {
+    return <section id="orphanages" className="orphanages-section">Loading orphanages...</section>;
+  }
+
+  if (error) {
+    return <section id="orphanages" className="orphanages-section">Error: {error.message}</section>;
+  }
+
   return (
     <section id="orphanages" className="orphanages-section">
       <h2>Featured Orphanages</h2>
       <div className="orphanage-cards">
-        {orphanages.map((orphanage) => {
-          const progress = Math.min((orphanage.raised / orphanage.goal) * 100, 100);
+        {orphanages.length === 0 ? (
+          <p>No orphanages found.</p>
+        ) : (
+          orphanages.map((orphanage) => {
+            const progress = Math.min((orphanage.amount_contributed / orphanage.target_amount) * 100, 100);
 
-          return (
-            <div key={orphanage.id} className="orphanage-card">
-              <img src={orphanage.image} alt={orphanage.name} />
-              <h3>{orphanage.name}</h3>
-              <p><strong>Current Need:</strong> {orphanage.need} <span className="urgency">({orphanage.urgency})</span></p>
-              <p>{orphanage.description}</p>
-              <div className="progress-bar">
-                <div className="progress" style={{ width: `${progress}%` }}></div>
+            return (
+              <div key={orphanage.id} className="orphanage-card">
+                <img src={orphanage.image} alt={orphanage.name} />
+                <h3>{orphanage.name}</h3>
+                <p><strong>Location:</strong> {orphanage.location}</p>
+                <p><strong>Current Need:</strong> {orphanage.current_need}</p>
+                <p>{orphanage.description}</p>
+                <div className="progress-bar">
+                  <div className="progress" style={{ width: `${progress}%` }}></div>
+                </div>
+                <p className="funds">
+                  Raised: ${orphanage.amount_contributed.toLocaleString()} / Goal: ${orphanage.target_amount.toLocaleString()}
+                </p>
               </div>
-              <p className="funds">
-                Raised: ${orphanage.raised.toLocaleString()} / Goal: ${orphanage.goal.toLocaleString()}
-              </p>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </section>
   );

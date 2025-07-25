@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './DonorDashboard.css';
 import DonationCard from './DonationCard';
 import ChildCard from './ChildCard';
-import HomeCard from './HomeCard';
+import HomeCard from './HomeCard.jsx';
 
 const DonorDashboard = ({ user }) => {
   const [activeSection, setActiveSection] = useState('donations');

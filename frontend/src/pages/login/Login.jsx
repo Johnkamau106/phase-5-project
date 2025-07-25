@@ -50,7 +50,7 @@ const AuthPage = ({ onLogin }) => {
   return (
    <div className="auth-page">
   <div className="auth-left">
-    <img src="..." alt="Hope Image" />
+    <img src="https://img.freepik.com/premium-vector/avatar-child-with-big-eyes-wide-smile-blue-knitted-hat-cute-kid-with-joyful-face_427567-2540.jpg" alt="Hope Image" />
     <h1>Hope Haven 🏠</h1>
     <p>A safe place for every child. Join us in making a difference.</p>
   </div>

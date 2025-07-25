@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePage.css';
-import dummyHomes from "./dummyhomes"; 
-import HomeCard from "../donor/HomeCard"; 
+import HomeCard from "../donor/HomeCard.jsx"; 
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../utils/api";
 
 const HomePage = () => {
+  const [homes, setHomes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHomes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homes`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setHomes(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomes();
+  }, []);
+
+  if (loading) {
+    return <div className="homepage">Loading homes...</div>;
+  }
+
+  if (error) {
+    return <div className="homepage">Error: {error.message}</div>;
+  }
+
   return (
     <div className="homepage">
       <section className="intro">
@@ -37,9 +68,13 @@ const HomePage = () => {
       <section className="homes">
         <h3 className="section-title">Featured Children's Homes</h3>
         <div className="home-list">
-          {Object.entries(dummyHomes).map(([id, home]) => (
-            <HomeCard key={id} home={home} id={id} />
-          ))}
+          {homes.length === 0 ? (
+            <p>No homes found.</p>
+          ) : (
+            homes.map((home) => (
+              <HomeCard key={home.id} home={home} id={home.id} />
+            ))
+          )}
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import { CalendarDays, MapPin } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./HomeDetail.css"; // Your CSS file
+import { BASE_URL } from "../../utils/api";
 
 const donationOutlines = [
   {
@@ -32,59 +33,51 @@ const donationOutlines = [
   },
 ];
 
-const dummyHomes = {
-  1: {
-    name: "Sunshine Children's Haven",
-    location: "Nairobi, Kenya",
-    description: "Spreading love & education since 2010",
-    children: 45,
-    avatar: "/images/sunshine-avatar.jpg",
-    banner: "/images/sunshine-banner.jpg",
-  },
-  2: {
-    name: "Little Angels Home",
-    location: "Lagos, Nigeria",
-    description: "A safe and nurturing environment for every child",
-    children: 28,
-    avatar: "/images/angels-avatar.jpg",
-    banner: "/images/angels-banner.jpg",
-  },
-  3: {
-    name: "Hope & Dreams Sanctuary",
-    location: "Cape Town, South Africa",
-    description: "Empowering children through education and support",
-    children: 62,
-    avatar: "/images/hope-avatar.jpg",
-    banner: "/images/hope-banner.jpg",
-  },
-};
-
 const HomeDetail = () => {
   const { id } = useParams();
   const [home, setHome] = useState(null);
   const [visitDate, setVisitDate] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setHome(dummyHomes[id]);
+    const fetchHome = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homes/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setHome(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHome();
   }, [id]);
 
-  if (!home) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!home) return <div>Home not found.</div>;
 
   return (
     <div className="home-detail-container">
       {/* Banner */}
       <div className="home-banner">
-        <img src={home.banner} alt={`${home.name} banner`} className="banner-img" />
+        <img src={home.image} alt={`${home.name} banner`} className="banner-img" />
       </div>
 
       {/* Avatar + Basic Info */}
       <div className="home-header">
-        <img src={home.avatar} alt={`${home.name} avatar`} className="avatar-img" />
+        <img src={home.image} alt={`${home.name} avatar`} className="avatar-img" />
         <div className="home-meta">
           <h2>{home.name}</h2>
           <p><strong>Location:</strong> {home.location}</p>
-          <p><strong>Children:</strong> {home.children}</p>
+          <p><strong>Current Need:</strong> {home.current_need}</p>
           <p><strong>Description:</strong> {home.description}</p>
         </div>
       </div>

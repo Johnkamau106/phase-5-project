@@ -33,4 +33,27 @@
 .home-description {
   font-size: 0.95rem;
   color: #444;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  height: 10px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.progress {
+  background-color: #4caf50;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1rem;
 }

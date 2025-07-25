@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../../utils/api';
+import { BASE_URL } from '../../utils/api.js';
 import './CaregiverDashboard.css';
 
 const EnrollChild = () => {

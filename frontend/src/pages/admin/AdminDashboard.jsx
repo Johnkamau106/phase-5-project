@@ -11,6 +11,7 @@ import DashboardSummary from "./DashboardSummary.jsx";
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("summary");
   const [userCount, setUserCount] = useState(0);
+  const [homeCount, setHomeCount] = useState(0);
   const [expandedSections, setExpandedSections] = useState({
     users: false,
     homes: false,
@@ -29,6 +30,9 @@ const AdminDashboard = () => {
   const handleUserCountUpdate = (count) => {
     setUserCount(count);
   };
+  const handleHomeCountUpdate = (count) => {
+    setHomeCount(count);
+  };
 
   const renderSection = () => {
     switch (activeSection) {
@@ -45,6 +49,7 @@ const AdminDashboard = () => {
           <AdminHomes
             expanded={expandedSections.homes}
             toggleSection={() => toggleSection("homes")}
+            onHomeCountChange={handleHomeCountUpdate}
           />
         );
       case "donations":
@@ -89,7 +94,9 @@ const AdminDashboard = () => {
         <button onClick={() => setActiveSection("users")}>
           Manage Users ({userCount})
         </button>
-        <button onClick={() => setActiveSection("homes")}>Manage Homes</button>
+        <button onClick={() => setActiveSection("homes")}>
+          Manage Homes({homeCount})
+        </button>
         <button onClick={() => setActiveSection("donations")}>
           View Donations
         </button>

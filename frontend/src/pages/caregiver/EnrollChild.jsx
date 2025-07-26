@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../../utils/api';
-import './CaregiverDashboard.css';
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../utils/api";
+import "./CaregiverDashboard.css";
 
 const EnrollChild = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    birthdate: '',
-    age: '',
-    gender: '',
-    photo: '',
-    health_status: '',
-    notes: '',
-    home: '',
+    name: "",
+    birthdate: "",
+    age: "",
+    gender: "",
+    photo: "",
+    health_status: "",
+    notes: "",
+    home: "",
   });
   const [error, setError] = useState(null);
+  const [homes, setHomes] = useState([]);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -26,32 +26,46 @@ const EnrollChild = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    // Split name into first and last name
-    const [firstName, ...lastNameArr] = formData.name.trim().split(" ");
-    const payload = {
-      first_name: firstName || formData.name,
-      last_name: lastNameArr.join(" ") || "",
-      date_of_birth: formData.birthdate,
-      gender: formData.gender,
-      home_id: Number(formData.home), // must be an integer ID
-      photo: formData.photo,
-      health_status: formData.health_status,
-      background: formData.notes,
-    };
+      // Split name into first and last name
+      const [firstName, ...lastNameArr] = formData.name.trim().split(" ");
+      const payload = {
+        first_name: firstName || formData.name,
+        last_name: lastNameArr.join(" ") || "",
+        date_of_birth: formData.birthdate,
+        gender: formData.gender,
+        home_id: Number(formData.home), // must be an integer ID
+        photo: formData.photo,
+        health_status: formData.health_status,
+        background: formData.notes,
+      };
 
-    const response = await fetch(`${BASE_URL}/api/children`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await fetch(`${BASE_URL}/api/children`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      navigate("/caregiver");
+    } catch (error) {
+      setError(error.message);
     }
-    navigate('/caregiver');
-  } catch (error) {
-    setError(error.message);
-  }
-};
+  };
+  useEffect(() => {
+    const fetchHomes = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/homes`);
+        if (!res.ok) throw new Error("Failed to fetch homes");
+        const data = await res.json();
+        setHomes(data);
+      } catch (err) {
+        console.error(err);
+        setError("Could not load homes");
+      }
+    };
+    fetchHomes();
+  }, []);
 
   return (
     <div className="caregiver-dashboard">
@@ -123,22 +137,29 @@ const EnrollChild = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Notes:</label>
               <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleInputChange}
               ></textarea>
-            </div>
+            </div> */}
             <div className="form-group">
               <label>Home:</label>
-              <input
-                type="text"
+              <select
                 name="home"
                 value={formData.home}
                 onChange={handleInputChange}
-              />
+                required
+              >
+                <option value="">Select Home</option>
+                {homes.map((home) => (
+                  <option key={home.id} value={home.id}>
+                    {home.name} ({home.children || 0} children)
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-actions">
               <button type="submit" className="btn-primary">
@@ -146,7 +167,7 @@ const EnrollChild = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate('/caregiver')}
+                onClick={() => navigate("/caregiver")}
                 className="btn-secondary"
               >
                 Cancel

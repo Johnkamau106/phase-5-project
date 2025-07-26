@@ -136,3 +136,41 @@ export const registerUser = async ({ email, password }) => {
     return { success: false, message: error.message };
   }
 };
+// Add these functions to api.js
+
+export const createDonation = async (donationData, token) => {
+  const response = await fetch(`${BASE_URL}/api/donation`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: JSON.stringify(donationData),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Failed to create donation");
+  return data;
+};
+
+export const getDonations = async (params = {}, token) => {
+  const query = new URLSearchParams(params).toString();
+  const response = await fetch(`${BASE_URL}/api/donation${query ? `?${query}` : ""}`, {
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Failed to fetch donations");
+  return data;
+};
+
+export const getDonation = async (donationId, token) => {
+  const response = await fetch(`${BASE_URL}/api/donation/${donationId}`, {
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Failed to fetch donation");
+  return data;
+};

@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import "./DonorDashboard.css";
 import DonationCard from "./DonationCard";
 import Donations from "./Donations";
+import DonorDonations from "./DonorDonations";
 import ChildCard from "./ChildCard";
-import ChildrenList from "../caregiver/ChildrenList"; // Adjust path if needed
+import ChildrenList from "../caregiver/ChildrenList";
 import HomeCard from "./HomeCard";
-import { getDonations, createDonation } from "../../utils/api";
+import { getDonations, createDonation, BASE_URL } from "../../utils/api";
 import DonorDashboardSummary from "./DashboardSummary";
 
 const donationOutlines = [
@@ -38,22 +39,18 @@ const donationOutlines = [
   },
 ];
 
-// Placeholder home object for Donations
-const home = {
-  id: 1,
-  name: "Hope Center",
-  location: "Nairobi",
-};
-
 const DonorDashboard = ({ user }) => {
+  const [homes, setHomes] = useState([]);
+  const [selectedHome, setSelectedHome] = useState(null);
   const [activeSection, setActiveSection] = useState("donations");
   const [expandedDonations, setExpandedDonations] = useState(true);
   const [expandedSponsorships, setExpandedSponsorships] = useState(false);
   const [expandedVolunteer, setExpandedVolunteer] = useState(false);
-  const [expandedSummary, setExpandedSummary] = useState(true); // new
-  const [expandedChildren, setExpandedChildren] = useState(false); // new
-
+  const [expandedSummary, setExpandedSummary] = useState(true);
+  const [expandedChildren, setExpandedChildren] = useState(false);
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [donationHistory, setDonationHistory] = useState([]);
+  const [totalDonated, setTotalDonated] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -70,10 +67,28 @@ const DonorDashboard = ({ user }) => {
     if (!user) return;
     setLoading(true);
     getDonations({ donor_id: user.id }, user.token)
-      .then((data) => setDonationHistory(data))
+      .then((data) => {
+        setDonationHistory(data);
+        const total = data.reduce((sum, d) => sum + (d.amount || 0), 0);
+        setTotalDonated(total);
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [user]);
+
+  useEffect(() => {
+    const fetchHomes = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homes`);
+        const data = await response.json();
+        setHomes(data);
+      } catch (error) {
+        console.error("Failed to fetch homes:", error);
+      }
+    };
+
+    fetchHomes();
+  }, []);
 
   const sponsoredChildren = [
     {
@@ -128,11 +143,13 @@ const DonorDashboard = ({ user }) => {
         </div>
         <div className="header-stats">
           <div className="stat-card">
-            <span className="stat-value">KES 8,000</span>
+            <span className="stat-value">
+              KES {totalDonated.toLocaleString()}
+            </span>
             <span className="stat-label">Total Donated</span>
           </div>
           <div className="stat-card">
-            <span className="stat-value">2</span>
+            <span className="stat-value">{sponsoredChildren.length}</span>
             <span className="stat-label">Sponsored Children</span>
           </div>
         </div>
@@ -172,163 +189,138 @@ const DonorDashboard = ({ user }) => {
       </nav>
 
       <main className="dashboard-content">
-        <>
-          {expandedSummary && (
-            <section className="summary-section">
-              <DonorDashboardSummary
-                totalDonated={8000}
-                sponsoredChildrenCount={2}
-                supportedHomes={2}
-                upcomingVisits={1}
-              />
-            </section>
-          )}
-          {/* Donations Section */}
-          {expandedDonations && (
-            <section className="donation-section">
-              <div className="section-header">
-                <h3>
-                  <i className="fas fa-donate"></i> My Donation History
-                </h3>
-                <Donations donationOutlines={donationOutlines} home={home} />
+        {expandedSummary && (
+          <section className="summary-section">
+            <DonorDashboardSummary
+              totalDonations={totalDonated}
+              sponsoredChildren={sponsoredChildren.length}
+              supportedHomes={homes.length}
+              volunteerVisits={volunteerOpportunities.length}
+            />
+          </section>
+        )}
+
+        {expandedDonations && (
+          <div className="section-header">
+            <h3>
+              <i className="fas fa-donate"></i> My Donation History
+              <DonorDonations user={user} />
+            </h3>
+            <button
+              className="btn-primary"
+              onClick={() => setIsDonationModalOpen(true)}
+            >
+              <i className="fas fa-plus"></i> Make a Donation
+            </button>
+          </div>
+        )}
+
+        {isDonationModalOpen && (
+          <div
+            className="donation-modal"
+            onClick={() => setIsDonationModalOpen(false)}
+          >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="form-group">
+                <label>Select a Home:</label>
+                <select
+                  value={selectedHome?.id || ""}
+                  onChange={(e) =>
+                    setSelectedHome(
+                      homes.find((h) => h.id === Number(e.target.value))
+                    )
+                  }
+                >
+                  <option value="">-- Choose a Home --</option>
+                  {homes.map((home) => (
+                    <option key={home.id} value={home.id}>
+                      {home.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              {loading ? (
-                <div>Loading donations...</div>
-              ) : error ? (
-                <div style={{ color: "red" }}>{error}</div>
-              ) : (
-                <div className="donation-list">
-                  {donationHistory.length === 0 ? (
-                    <div>No donations yet.</div>
-                  ) : (
-                    donationHistory.map((donation) => (
-                      <DonationCard key={donation.id} donation={donation} />
-                    ))
-                  )}
-                </div>
+              {selectedHome && (
+                <Donations
+                  donationOutlines={donationOutlines}
+                  home={selectedHome}
+                  user={user}
+                  onDonationSuccess={() => {
+                    alert("Thank you for your generous donation!");
+                    setIsDonationModalOpen(false);
+                  }}
+                />
               )}
-              <div className="summary-card">
-                <h4>Impact</h4>
-                <p className="impact">Supported 2 homes</p>
-              </div>
-              <div className="summary-card">
-                <h4>Tax Documents</h4>
-                <button className="btn-secondary">
-                  <i className="fas fa-file-download"></i> Download
-                </button>
-              </div>
-            </section>
-          )}
+            </div>
+          </div>
+        )}
 
-          {/* Sponsorships Section */}
-          {expandedSponsorships && (
-            <section className="sponsorship-section">
-              <div className="section-header">
-                <h3>
-                  <i className="fas fa-child"></i> My Sponsored Children
-                </h3>
-                <Link to="/sponsor" className="btn-primary">
-                  <i className="fas fa-plus"></i> Sponsor New Child
-                </Link>
-              </div>
+        {expandedSponsorships && (
+          <section className="sponsorship-section">
+            <div className="section-header">
+              <h3>
+                <i className="fas fa-child"></i> My Sponsored Children
+              </h3>
+              <Link to="/sponsor" className="btn-primary">
+                <i className="fas fa-plus"></i> Sponsor New Child
+              </Link>
+            </div>
+            <div className="children-grid">
+              {sponsoredChildren.map((child) => (
+                <ChildCard key={child.id} child={child} />
+              ))}
+            </div>
+          </section>
+        )}
 
-              <div className="children-grid">
-                {sponsoredChildren.map((child) => (
-                  <ChildCard key={child.id} child={child} />
-                ))}
-              </div>
+        {expandedChildren && (
+          <section className="children-section">
+            <div className="section-header">
+              <h3>
+                <i className="fas fa-users"></i> Children Overview
+              </h3>
+              <p className="subtext">
+                View children currently in care. Sponsorship info may be limited
+                to your supported homes.
+              </p>
+            </div>
+            <ChildrenList readOnly={true} />
+          </section>
+        )}
 
-              <div className="sponsorship-actions">
-                <button className="btn-secondary">
-                  <i className="fas fa-envelope"></i> Write to Child
-                </button>
-                <button className="btn-secondary">
-                  <i className="fas fa-gift"></i> Send Gift
-                </button>
-                <button className="btn-secondary">
-                  <i className="fas fa-calendar"></i> Schedule Visit
-                </button>
-              </div>
-            </section>
-          )}
-          {expandedChildren && (
-            <section className="children-section">
-              <div className="section-header">
-                <h3>
-                  <i className="fas fa-users"></i> Children Overview
-                </h3>
-                <p className="subtext">
-                  View children currently in care. Sponsorship info may be
-                  limited to your supported homes.
-                </p>
-              </div>
-              <ChildrenList readOnly={true} />
-            </section>
-          )}
+        {expandedVolunteer && (
+          <section className="volunteer-section">
+            <div className="section-header">
+              <h3>
+                <i className="fas fa-hands-helping"></i> Volunteer Opportunities
+              </h3>
+            </div>
 
-          {/* Volunteer Section */}
-          {expandedVolunteer && (
-            <section className="volunteer-section">
-              <div className="section-header">
-                <h3>
-                  <i className="fas fa-hands-helping"></i> Volunteer
-                  Opportunities
-                </h3>
-              </div>
-
-              <div className="opportunities-list">
-                {volunteerOpportunities.map((opp) => (
-                  <div key={opp.id} className="opportunity-card">
-                    <div className="opportunity-info">
-                      <h4>{opp.title}</h4>
-                      <p>
-                        <i className="fas fa-home"></i> {opp.home}
-                      </p>
-                      <p>
-                        <i className="fas fa-calendar-day"></i> {opp.date}
-                      </p>
-                      <p>
-                        <i className="fas fa-clock"></i> {opp.duration}
-                      </p>
-                      <p>
-                        <i className="fas fa-tools"></i> Skills: {opp.skills}
-                      </p>
-                    </div>
-                    <button className="btn-primary">
-                      <i className="fas fa-sign-in-alt"></i> Sign Up
-                    </button>
+            <div className="opportunities-list">
+              {volunteerOpportunities.map((opp) => (
+                <div key={opp.id} className="opportunity-card">
+                  <div className="opportunity-info">
+                    <h4>{opp.title}</h4>
+                    <p>
+                      <i className="fas fa-home"></i> {opp.home}
+                    </p>
+                    <p>
+                      <i className="fas fa-calendar-day"></i> {opp.date}
+                    </p>
+                    <p>
+                      <i className="fas fa-clock"></i> {opp.duration}
+                    </p>
+                    <p>
+                      <i className="fas fa-tools"></i> Skills: {opp.skills}
+                    </p>
                   </div>
-                ))}
-              </div>
-
-              <div className="visit-form">
-                <h4>
-                  <i className="fas fa-calendar-check"></i> Schedule a Visit
-                </h4>
-                <form>
-                  <div className="form-group">
-                    <label>Select Home:</label>
-                    <select>
-                      <option>Hope Center</option>
-                      <option>Bright Future</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Visit Date:</label>
-                    <input type="date" />
-                  </div>
-                  <div className="form-group">
-                    <label>Visit Purpose:</label>
-                    <textarea placeholder="Describe the purpose of your visit"></textarea>
-                  </div>
-                  <button type="submit" className="btn-primary">
-                    <i className="fas fa-paper-plane"></i> Submit Request
+                  <button className="btn-primary">
+                    <i className="fas fa-sign-in-alt"></i> Sign Up
                   </button>
-                </form>
-              </div>
-            </section>
-          )}
-        </>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

@@ -14,11 +14,11 @@ const DashboardSummary = ({
         </div>
         <div className="card">
           <h3>🏠 Homes</h3>
-          {/* <p>{homeCount}</p> */}
+          <p>{homeCount}</p>
         </div>
         <div className="card">
           <h3>🎁 Donations</h3>
-          {/* <p>KES {totalDonations.toLocaleString()}</p> */}
+          <p>KES {totalDonations.toLocaleString()}</p>
         </div>
         <div className="card">
           <h3>📅 Events</h3>

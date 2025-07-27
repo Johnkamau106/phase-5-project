@@ -1,75 +1,69 @@
-import React from 'react';
-import './SplashOrphanages.css';
+import React, { useEffect, useState } from 'react';
+            import { useNavigate } from 'react-router-dom';
+            import './SplashOrphanages.css';
+            import { BASE_URL } from '../utils/api';
 
-const orphanages = [
-  {
-    id: 1,
-    name: "Hope Haven",
-    image: "/images/orphanage1.jpg",
-    need: "School Supplies",
-    urgency: "Urgent",
-    description: "Providing shelter and education to 45 children affected by poverty and abandonment.",
-    raised: 8250,
-    goal: 15000
-  },
-  {
-    id: 2,
-    name: "Bright Futures Home",
-    image: "/images/orphanage2.jpg",
-    need: "Food & Nutrition",
-    urgency: "High",
-    description: "Supporting 60 children with balanced meals and nutrition programs.",
-    raised: 5600,
-    goal: 10000
-  },
-  {
-    id: 3,
-    name: "Joy Children's Centre",
-    image: "/images/orphanage3.jpg",
-    need: "Medical Supplies",
-    urgency: "Urgent",
-    description: "Providing essential medical care and vaccinations to 30 children.",
-    raised: 3000,
-    goal: 7500
-  },
-  {
-    id: 4,
-    name: "Sunrise Orphanage",
-    image: "/images/orphanage4.jpg",
-    need: "School Fees",
-    urgency: "Moderate",
-    description: "Helping 50 children stay in school through education sponsorships.",
-    raised: 4200,
-    goal: 10000
-  }
-];
+            const SplashOrphanages = () => {
+              const [orphanages, setOrphanages] = useState([]);
+              const [loading, setLoading] = useState(true);
+              const navigate = useNavigate();
 
-const SplashOrphanages = () => {
-  return (
-    <section id="orphanages" className="orphanages-section">
-      <h2>Featured Orphanages</h2>
-      <div className="orphanage-cards">
-        {orphanages.map((orphanage) => {
-          const progress = Math.min((orphanage.raised / orphanage.goal) * 100, 100);
+              useEffect(() => {
+                fetch(`${BASE_URL}/api/homes`)
+                  .then(res => res.json())
+                  .then(data => {
+                    setOrphanages(data);
+                    setLoading(false);
+                  })
+                  .catch(() => setLoading(false));
+              }, []);
 
-          return (
-            <div key={orphanage.id} className="orphanage-card">
-              <img src={orphanage.image} alt={orphanage.name} />
-              <h3>{orphanage.name}</h3>
-              <p><strong>Current Need:</strong> {orphanage.need} <span className="urgency">({orphanage.urgency})</span></p>
-              <p>{orphanage.description}</p>
-              <div className="progress-bar">
-                <div className="progress" style={{ width: `${progress}%` }}></div>
-              </div>
-              <p className="funds">
-                Raised: ${orphanage.raised.toLocaleString()} / Goal: ${orphanage.goal.toLocaleString()}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
+              const handleCardClick = (id) => {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                  navigate('/login'); // or '/register'
+                } else {
+                  navigate(`/home/${id}`);
+                }
+              };
 
-export default SplashOrphanages;
+              if (loading) return <div>Loading orphanages...</div>;
+
+              return (
+                <section id="orphanages" className="orphanages-section">
+                  <h2>Featured Orphanages</h2>
+                  <div className="orphanage-cards">
+                    {orphanages.map((orphanage) => {
+                      const raised = Number(orphanage.raised || 0);
+                      const goal = Number(orphanage.goal || 0);
+                      const progress = goal > 0 ? Math.min((raised / goal) * 100, 100) : 0;
+
+                      return (
+                        <div
+                          key={orphanage.id}
+                          className="orphanage-card"
+                          onClick={() => handleCardClick(orphanage.id)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <img src={orphanage.image} alt={orphanage.name} />
+                          <h3>{orphanage.name}</h3>
+                          <p>
+                            <strong>Current Need:</strong> {orphanage.need}{' '}
+                            <span className="urgency">({orphanage.urgency})</span>
+                          </p>
+                          <p>{orphanage.description}</p>
+                          <div className="progress-bar">
+                            <div className="progress" style={{ width: `${progress}%` }}></div>
+                          </div>
+                          <p className="funds">
+                            Raised: ${raised.toLocaleString()} / Goal: ${goal.toLocaleString()}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              );
+            };
+
+            export default SplashOrphanages;

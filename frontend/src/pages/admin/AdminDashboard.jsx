@@ -11,6 +11,10 @@ import DashboardSummary from "./DashboardSummary.jsx";
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("summary");
   const [userCount, setUserCount] = useState(0);
+  const [homeCount, setHomeCount] = useState(0);
+  const [totalDonations, setTotalDonations] = useState(0);
+  const [upcomingEvents, setUpcomingEvents] = useState(0);
+
   const [expandedSections, setExpandedSections] = useState({
     users: false,
     homes: false,
@@ -26,9 +30,11 @@ const AdminDashboard = () => {
       [section]: !prev[section],
     }));
   };
-  const handleUserCountUpdate = (count) => {
-    setUserCount(count);
-  };
+
+  const handleUserCountUpdate = (count) => setUserCount(count);
+  const handleHomeCountUpdate = (count) => setHomeCount(count);
+  const handleDonationTotalUpdate = (total) => setTotalDonations(total);
+  const handleUpcomingEventsUpdate = (count) => setUpcomingEvents(count);
 
   const renderSection = () => {
     switch (activeSection) {
@@ -45,6 +51,7 @@ const AdminDashboard = () => {
           <AdminHomes
             expanded={expandedSections.homes}
             toggleSection={() => toggleSection("homes")}
+            onHomeCountChange={handleHomeCountUpdate}
           />
         );
       case "donations":
@@ -52,6 +59,7 @@ const AdminDashboard = () => {
           <AdminDonations
             expanded={expandedSections.donations}
             toggleSection={() => toggleSection("donations")}
+            onDonationTotalChange={handleDonationTotalUpdate}
           />
         );
       case "events":
@@ -59,6 +67,7 @@ const AdminDashboard = () => {
           <AdminEvents
             expanded={expandedSections.events}
             toggleSection={() => toggleSection("events")}
+            onUpcomingEventsChange={handleUpcomingEventsUpdate}
           />
         );
       case "reports":
@@ -76,7 +85,14 @@ const AdminDashboard = () => {
           />
         );
       default:
-        return <DashboardSummary userCount={userCount} />;
+        return (
+          <DashboardSummary
+            userCount={userCount}
+            homeCount={homeCount}
+            totalDonations={totalDonations}
+            upcomingEvents={upcomingEvents}
+          />
+        );
     }
   };
 
@@ -89,9 +105,11 @@ const AdminDashboard = () => {
         <button onClick={() => setActiveSection("users")}>
           Manage Users ({userCount})
         </button>
-        <button onClick={() => setActiveSection("homes")}>Manage Homes</button>
+        <button onClick={() => setActiveSection("homes")}>
+          Manage Homes ({homeCount})
+        </button>
         <button onClick={() => setActiveSection("donations")}>
-          View Donations
+          View Donations()
         </button>
         <button onClick={() => setActiveSection("events")}>Events</button>
         <button onClick={() => setActiveSection("reports")}>

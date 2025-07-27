@@ -1,33 +1,28 @@
+// src/pages/donor/DonorDonations.jsx
 import React, { useEffect, useState } from "react";
 import { getDonations } from "../../utils/api"; // adjust path if needed
 
-const AdminDonations = ({ onDonationTotalChange }) => {
+const DonorDonations = ({ user }) => {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
-  const [donorNames, setDonorNames] = useState([]);
 
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const data = await getDonations(); // optionally pass token
-        setDonations(data);
+        const allDonations = await getDonations(); // GET /donations
+        const donorDonations = allDonations.filter(
+          (donation) => donation.donor?.id === user.id
+        );
 
-        // Calculate total amount
-        const total = data.reduce(
+        setDonations(donorDonations);
+
+        const total = donorDonations.reduce(
           (sum, donation) => sum + (donation.amount || 0),
           0
         );
         setTotalAmount(total);
-
-        // Get unique donor names
-        const names = [
-          ...new Set(
-            data.map((donation) => donation.donor?.name).filter(Boolean)
-          ),
-        ];
-        setDonorNames(names);
       } catch (err) {
         setError(err.message || "Failed to fetch donations");
       } finally {
@@ -35,37 +30,27 @@ const AdminDonations = ({ onDonationTotalChange }) => {
       }
     };
 
-    fetchDonations();
-  }, []);
-  useEffect(() => {
-    if (onDonationTotalChange) {
-      onDonationTotalChange(totalAmount);
-    }
-  }, [totalAmount, onDonationTotalChange]);
+    if (user?.id) fetchDonations();
+  }, [user]);
 
   return (
     <div>
-      <h3>💰 View Donations</h3>
-
+      <h3>📦 My Donation History</h3>
       {loading && <p>Loading donations...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {!loading && !error && (
-        <>
-          <div style={{ marginBottom: "1rem" }}>
-            <p>
-              <strong>Total Donations:</strong> KES {totalAmount.toFixed(2)}
-            </p>
-            <p>
-              <strong>Donors:</strong>{" "}
-              {donorNames.join(", ") || "No donors yet"}
-            </p>
-          </div>
+      {!loading && !error && donations.length === 0 && (
+        <p>You haven’t made any donations yet.</p>
+      )}
 
+      {!loading && donations.length > 0 && (
+        <>
+          <p>
+            <strong>Total Donated:</strong> KES {totalAmount.toFixed(2)}
+          </p>
           <table>
             <thead>
               <tr>
-                <th>Donor</th>
                 <th>Amount (KES)</th>
                 <th>Date</th>
                 <th>Home</th>
@@ -75,7 +60,6 @@ const AdminDonations = ({ onDonationTotalChange }) => {
             <tbody>
               {donations.map((donation) => (
                 <tr key={donation.id}>
-                  <td>{donation.donor?.name || "Unknown"}</td>
                   <td>{donation.amount}</td>
                   <td>{new Date(donation.created_at).toLocaleDateString()}</td>
                   <td>{donation.home?.name || "—"}</td>
@@ -90,4 +74,4 @@ const AdminDonations = ({ onDonationTotalChange }) => {
   );
 };
 
-export default AdminDonations;
+export default DonorDonations;

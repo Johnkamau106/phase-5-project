@@ -24,10 +24,10 @@
 // };
 export const getUserFromLocalStorage = () => {
   try {
-    const stored = localStorage.getItem('user');
+    const stored = localStorage.getItem("user");
     return stored ? JSON.parse(stored) : null;
   } catch (error) {
-    console.error('Invalid user format in localStorage', error);
+    console.error("Invalid user format in localStorage", error);
     return null;
   }
 };

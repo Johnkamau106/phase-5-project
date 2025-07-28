@@ -3,7 +3,7 @@ import "./Donations.css";
 import { createDonation } from "../../utils/api";
 
 
-const Donations = ({ donationOutlines, home, user }) => {
+const Donations = ({ donationOutlines, home, user, onDonationSuccess }) => {
 const [activeIndex, setActiveIndex] = useState(null);
 const [amount, setAmount] = useState("");
 const [paymentMethod, setPaymentMethod] = useState("mpesa");
@@ -35,6 +35,9 @@ const handleSubmit = async (e) => {
       user.token
     );
     closeModal();
+    if (onDonationSuccess) {
+      onDonationSuccess();
+    }
   } catch (err) {
     setError(err.message);
   } finally {

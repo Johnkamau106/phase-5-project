@@ -120,6 +120,34 @@
   background: #2b6cb0;
 }
 
+/* --- Donation Trigger Section --- */
+.donation-trigger-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  margin-top: 32px;
+}
+
+.donate-now-button {
+  background-color: #38a169;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(56, 161, 105, 0.4);
+}
+
+.donate-now-button:hover {
+  background-color: #2f855a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(56, 161, 105, 0.5);
+}
+
 /* --- Visit & Support Section --- */
 .visit-support-grid {
   display: flex;
@@ -191,6 +219,7 @@
   max-width: 500px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   animation: fadeIn 0.3s ease;
+  position: relative; /* For positioning a close button if needed */
 }
 
 @keyframes fadeIn {
@@ -294,4 +323,3 @@ body,
 .floating-orb:nth-child(3) { left: 50%; animation-delay: 2s; }
 .floating-orb:nth-child(4) { left: 70%; animation-delay: 6s; }
 .floating-orb:nth-child(5) { left: 90%; animation-delay: 1s; }
-

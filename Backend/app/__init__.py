@@ -7,7 +7,6 @@ from app.models.user import User
 from app.models.child import Child
 from app.models.event import Event
 from app.models.donation import Donation
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -25,7 +24,8 @@ def create_app():
     app.register_blueprint(event_routes.event_bp, url_prefix='/api/events')
     app.register_blueprint(home_routes.home_bp, url_prefix='/api/homes')
     app.register_blueprint(donation_routes.donation_bp, url_prefix='/api/donation')
-
+    print("Available routes:")
+    print(app.url_map)
     with app.app_context():
         db.create_all()
 

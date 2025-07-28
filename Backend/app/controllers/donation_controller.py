@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from app.models import Donation, Home, Child, User
+from app.services.Mpesa_service import initiate_stk_push
 from app.extensions import db
 from datetime import datetime
 
@@ -115,3 +116,40 @@ def delete_donation(donation_id):
     db.session.commit()
 
     return jsonify({'message': 'Donation deleted successfully'}), 200
+def mpesa_donation():
+    data = request.get_json()
+    phone = data.get("phone_number")
+    amount = data.get("amount")
+    donor_id = data.get("donor_id")
+    home_id = data.get("home_id")
+    child_id = data.get("child_id")
+    notes = data.get("notes", "")
+
+    if not phone or not amount or not donor_id:
+        return jsonify({"error": "Phone number, amount, and donor_id required"}), 400
+
+    # 1. Create the donation first
+    donation = Donation(
+        amount=amount,
+        payment_method="mpesa",
+        donation_type="one-time",
+        status="pending",
+        donor_id=donor_id,
+        home_id=home_id,
+        child_id=child_id,
+        notes=notes,
+    )
+    db.session.add(donation)
+    db.session.commit()
+
+    # 2. Initiate STK push
+    callback_url = "https://yourdomain.com/api/v1/mpesa/callback"  # Replace this!
+    response = initiate_stk_push(
+        phone_number=phone,
+        amount=amount,
+        account_reference=f"Donation{donation.id}",
+        transaction_desc="Donation to children’s home",
+        callback_url=callback_url
+    )
+
+    return jsonify({"message": "STK push initiated", "mpesa_response": response, "donation_id": donation.id})

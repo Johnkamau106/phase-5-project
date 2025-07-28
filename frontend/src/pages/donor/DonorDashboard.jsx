@@ -42,6 +42,7 @@ const donationOutlines = [
 const DonorDashboard = ({ user }) => {
   const [homes, setHomes] = useState([]);
   const [selectedHome, setSelectedHome] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [activeSection, setActiveSection] = useState("donations");
   const [expandedDonations, setExpandedDonations] = useState(true);
   const [expandedSponsorships, setExpandedSponsorships] = useState(false);
@@ -53,6 +54,7 @@ const DonorDashboard = ({ user }) => {
   const [totalDonated, setTotalDonated] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [modalStep, setModalStep] = useState(1);
 
   const toggleSection = (section) => {
     setExpandedSummary(section === "summary");
@@ -221,32 +223,64 @@ const DonorDashboard = ({ user }) => {
             onClick={() => setIsDonationModalOpen(false)}
           >
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div className="form-group">
-                <label>Select a Home:</label>
-                <select
-                  value={selectedHome?.id || ""}
-                  onChange={(e) =>
-                    setSelectedHome(
-                      homes.find((h) => h.id === Number(e.target.value))
-                    )
-                  }
-                >
-                  <option value="">-- Choose a Home --</option>
-                  {homes.map((home) => (
-                    <option key={home.id} value={home.id}>
-                      {home.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {selectedHome && (
+              {modalStep === 1 && (
+                <>
+                  <div className="form-group">
+                    <label>Select a Home:</label>
+                    <select
+                      value={selectedHome?.id || ""}
+                      onChange={(e) =>
+                        setSelectedHome(
+                          homes.find((h) => h.id === Number(e.target.value))
+                        )
+                      }
+                    >
+                      <option value="">-- Choose a Home --</option>
+                      {homes.map((home) => (
+                        <option key={home.id} value={home.id}>
+                          {home.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Enter Your Phone Number:</label>
+                    <input
+                      type="tel"
+                      placeholder="e.g. 254712345678"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <button
+                    className="btn-primary"
+                    onClick={() => {
+                      if (!selectedHome || !phoneNumber) {
+                        alert(
+                          "Please select a home and enter your phone number."
+                        );
+                      } else {
+                        setModalStep(2);
+                      }
+                    }}
+                  >
+                    Next
+                  </button>
+                </>
+              )}
+              {modalStep === 2 && (
                 <Donations
                   donationOutlines={donationOutlines}
                   home={selectedHome}
                   user={user}
+                  phoneNumber={phoneNumber}
                   onDonationSuccess={() => {
                     alert("Thank you for your generous donation!");
                     setIsDonationModalOpen(false);
+                    setModalStep(1); // Reset for next time
                   }}
                 />
               )}

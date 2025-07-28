@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getDonations } from "../../utils/api"; // adjust path if needed
+import { getDonations } from "../../utils/api";
+import { getUserFromLocalStorage } from "../../utils/auth";
 
 const AdminDonations = ({ onDonationTotalChange }) => {
   const [donations, setDonations] = useState([]);
@@ -9,9 +10,16 @@ const AdminDonations = ({ onDonationTotalChange }) => {
   const [donorNames, setDonorNames] = useState([]);
 
   useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (!user || !user.token) {
+      setError("Authentication required to view donations.");
+      setLoading(false);
+      return;
+    }
+
     const fetchDonations = async () => {
       try {
-        const data = await getDonations(); // optionally pass token
+        const data = await getDonations({}, user.token);
         setDonations(data);
 
         // Calculate total amount

@@ -1,3 +1,19 @@
+/* --- Admin Header --- */
+.admin-header {
+  padding: 20px 0;
+  margin: 0 6rem 20px 6rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 /* --- Profile Container --- */
 .profile-container {
   padding: 60px 24px;
@@ -396,4 +412,124 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #0056b3;
+}
+
+/* --- Tables Styling for Admin Sections --- */
+.users-table,
+.admin-dashboard table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", sans-serif;
+  margin-top: 1rem;
+}
+
+/* --- Buttons Styling for AdminHomes to match AdminUsers --- */
+.btn-save {
+  background-color: #38a169;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+  background-color: #2f855a;
+}
+
+.btn-cancel {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #9b2c2c;
+}
+
+/* --- Add New Button Styling --- */
+.add-new-btn {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.add-new-btn:hover {
+  background-color: #2b6cb0;
+}
+
+.users-table th,
+.users-table td,
+.admin-dashboard table th,
+.admin-dashboard table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.users-table thead tr,
+.admin-dashboard table thead tr {
+  background-color: #3182ce;
+  color: white;
+}
+
+.users-table tbody tr:nth-child(even),
+.admin-dashboard table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.users-table tbody tr:hover,
+.admin-dashboard table tbody tr:hover {
+  background-color: #e6f0ff;
+}
+
+/* Lighter text color for donation status and home names in donor donation table */
+.users-table tbody tr td {
+  color: #6c757d; /* lighter gray similar to admin dashboard lists */
+}
+
+.users-table .actions button,
+.admin-dashboard table .actions button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.users-table .edit-btn,
+.admin-dashboard table .edit-btn {
+  background-color: #38a169;
+  color: white;
+}
+
+.users-table .edit-btn:hover,
+.admin-dashboard table .edit-btn:hover {
+  background-color: #2f855a;
+}
+
+.users-table .delete-btn,
+.admin-dashboard table .delete-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.users-table .delete-btn:hover,
+.admin-dashboard table .delete-btn:hover {
+  background-color: #9b2c2c;
 }

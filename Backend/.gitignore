@@ -56,6 +56,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.idea/
+
 
 # VSCode
 .vscode/
@@ -128,3 +130,4 @@ dmypy.json
 .DS_Store
 
 .env
+instance/app.db

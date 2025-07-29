@@ -98,7 +98,12 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <h2>Welcome, Admin!</h2>
+      <header className="admin-header">
+        <div className="header-content">
+          <h2>👩‍⚕️ Admin Dashboard</h2>
+          <p>Welcome back, Admin!</p>
+        </div>
+      </header>
 
       <section className="dashboard-nav">
         <button onClick={() => setActiveSection("summary")}>Dashboard</button>

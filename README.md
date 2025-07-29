@@ -1,12 +1,65 @@
-# React + Vite
+# Orphanage Donations Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application to facilitate donations to orphanages, featuring a React (Vite) frontend and a Python (Flask) backend.
 
-Currently, two official plugins are available:
+## Features
+- Donor, caregiver, and admin dashboards
+- Child enrollment and management
+- Donation tracking
+- Orphanage profiles
+- User authentication
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Structure
+```
+Backend/    # Flask backend (API, models, controllers)
+frontend/   # React frontend (Vite)
+```
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend (React + Vite)
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Backend (Flask)
+
+1. Install dependencies:
+   ```bash
+   pip install -r ../Backend/requirements.txt
+   ```
+2. Run the backend server:
+   ```bash
+   python ../Backend/run.py
+   ```
+
+## Deployment
+
+### Frontend (Vercel)
+1. Push your code to GitHub.
+2. Import the repository in [Vercel](https://vercel.com/).
+3. Set the project root to `frontend`.
+4. Build Command: `npm run build`
+5. Output Directory: `dist`
+6. Deploy.
+
+### Backend (Render/Heroku/Railway)
+1. Push your code to GitHub.
+2. Create a new web service on [Render](https://render.com/), [Heroku](https://heroku.com/), or [Railway](https://railway.app/).
+3. Set the build command: `pip install -r Backend/requirements.txt`
+4. Set the start command: `python Backend/run.py`
+5. Set environment variables as needed.
+6. Deploy.
+
+### Connecting Frontend and Backend
+- After deploying the backend, update the API URLs in `frontend/src/utils/api.js` to point to your backend's deployed URL.
+- Redeploy the frontend if necessary.
+
+## License
+MIT

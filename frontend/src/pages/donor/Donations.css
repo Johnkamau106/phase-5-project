@@ -18,6 +18,8 @@
   max-width: 500px;
   width: 90%;
   animation: fadeInUp 0.3s ease;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 @keyframes fadeInUp {

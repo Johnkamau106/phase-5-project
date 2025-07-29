@@ -143,20 +143,21 @@
   display: block;
 }
 
-.dropdown-nav-menu button {
-  background: none;
-  border: none;
-  text-align: left;
-  width: 100%;
-  padding: 10px 16px;
-  font-size: 0.95rem;
-  color: #2d3748;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
 
-.dropdown-nav-menu button:hover {
-  background-color: #f7fafc;
+.edit-child-form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem 3.5rem 2rem;
+  max-width: 480px;
+  margin: 2rem auto 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 600px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 /* Summary Cards */
@@ -219,6 +220,8 @@
 
 .section-content {
   padding: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .section-actions {
@@ -273,12 +276,16 @@
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 2rem 3.5rem 2rem;
   max-width: 480px;
-  margin: 2rem auto;
+  margin: 2rem auto 4rem auto;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  min-height: 600px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 .enroll-child-form label {
@@ -312,7 +319,8 @@
   display: flex;
   gap: 1.5rem;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  position: static;
 }
 
 .enroll-child-form button {
@@ -340,6 +348,31 @@
   padding: 0.7rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
+}
+
+/* Edit Child Form */
+.edit-child-form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem 3.5rem 2rem;
+  max-width: 480px;
+  margin: 2rem auto 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 600px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.edit-child-form .form-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  position: static;
 }
 
 @keyframes floatOrbs {

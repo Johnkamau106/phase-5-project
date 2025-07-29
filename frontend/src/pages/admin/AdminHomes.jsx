@@ -75,8 +75,13 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
 
   return (
     <div>
-      <h3>🏠 Manage Homes</h3>
-      <button onClick={handleAdd}>+ Add New Home</button>
+      <div className="section-header">
+        <h3>🏠 Manage Homes</h3>
+      </div>
+
+      <button onClick={handleAdd} className="add-new-btn">
+        + Add New Home
+      </button>
       <table>
         <thead>
           <tr>
@@ -95,45 +100,82 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
               <td>{home.children}</td>
               <td>{home.description}</td>
               <td>
-                <button onClick={() => handleEdit(home)}>Edit</button>
-                <button onClick={() => handleDelete(home.id)}>Delete</button>
+                <button onClick={() => handleEdit(home)} className="edit-btn">
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(home.id)}
+                  className="delete-btn"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       {showForm && (
-        <form onSubmit={handleSubmit} style={{ marginTop: "1em" }}>
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            name="location"
-            placeholder="Location"
-            value={form.location}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            name="children"
-            placeholder="Children"
-            value={form.children}
-            onChange={handleInputChange}
-          />
-          <input
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleInputChange}
-          />
-          <button type="submit">{editingId ? "Update" : "Add"}</button>
-          <button type="button" onClick={() => setShowForm(false)}>
-            Cancel
-          </button>
+        <form
+          onSubmit={handleSubmit}
+          className="user-form"
+          style={{ marginTop: "1em" }}
+        >
+          <h4>{editingId ? "Edit Home" : "Add New Home"}</h4>
+
+          <div className="form-group">
+            <label>Name:</label>
+            <input
+              name="name"
+              placeholder="Name"
+              value={form.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Location:</label>
+            <input
+              name="location"
+              placeholder="Location"
+              value={form.location}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Children:</label>
+            <input
+              name="children"
+              placeholder="Children"
+              value={form.children}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Description:</label>
+            <input
+              name="description"
+              placeholder="Description"
+              value={form.description}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="btn-save">
+              {editingId ? "Update" : "Add"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+              className="btn-cancel"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
     </div>

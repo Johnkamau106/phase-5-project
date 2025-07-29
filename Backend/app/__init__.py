@@ -2,11 +2,13 @@
 from flask import Flask
 from app.config import Config
 from app.extensions import db, migrate, jwt, cors
-from app.routes import user_routes, auth_routes, child_routes, event_routes, home_routes, donation_routes
+from app.routes import user_routes, auth_routes, child_routes, event_routes, home_routes, donation_routes, education_routes, medical_routes
 from app.models.user import User
 from app.models.child import Child
 from app.models.event import Event
 from app.models.donation import Donation
+from app.models.education import EducationRecord   
+from app.models.medical import MedicalRecord    
 from dotenv import load_dotenv
 import os
 
@@ -28,6 +30,8 @@ def create_app():
     app.register_blueprint(event_routes.event_bp, url_prefix='/api/events')
     app.register_blueprint(home_routes.home_bp, url_prefix='/api/homes')
     app.register_blueprint(donation_routes.donation_bp, url_prefix='/api/donation')
+    app.register_blueprint(medical_routes.medical_bp)
+    app.register_blueprint(education_routes.education_bp)
     print("Available routes:")
     print(app.url_map)
     with app.app_context():
@@ -38,3 +42,4 @@ def create_app():
 
 # Optional: confirm loaded
 print("ENV:", os.getenv("MPESA_ENVIRONMENT"))
+

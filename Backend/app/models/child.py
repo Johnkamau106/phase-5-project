@@ -1,7 +1,6 @@
 from app.extensions import db
 from datetime import datetime
 
-
 class Child(db.Model):
     __tablename__ = 'children'
 
@@ -19,12 +18,14 @@ class Child(db.Model):
     is_sponsored = db.Column(db.Boolean, default=False)
     sponsorship_details = db.Column(db.Text)
 
-    # Relationships
+    # Foreign Keys
     home_id = db.Column(db.Integer, db.ForeignKey('homes.id'), nullable=False)
     sponsor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    # Relationships
     home = db.relationship('Home', backref='children')
     sponsor = db.relationship('User', backref='sponsored_children')
+    education_records = db.relationship('EducationRecord', backref='child', cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -44,7 +45,8 @@ class Child(db.Model):
             "isSponsored": self.is_sponsored,
             "sponsorshipDetails": self.sponsorship_details,
             "home": self.home.to_dict() if self.home else None,
-            "sponsor": self.sponsor.to_dict() if self.sponsor else None
+            "sponsor": self.sponsor.to_dict() if self.sponsor else None,
+            "educationRecords": [record.to_dict() for record in self.education_records]
         }
 
     def calculate_age(self):
@@ -52,6 +54,5 @@ class Child(db.Model):
             return None
         today = datetime.today()
         return today.year - self.date_of_birth.year - (
-                (today.month, today.day) <
-                (self.date_of_birth.month, self.date_of_birth.day)
+            (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
         )

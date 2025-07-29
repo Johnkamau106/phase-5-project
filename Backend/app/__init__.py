@@ -42,3 +42,4 @@ def create_app():
 
 # Optional: confirm loaded
 print("ENV:", os.getenv("MPESA_ENVIRONMENT"))
+

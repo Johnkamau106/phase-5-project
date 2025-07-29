@@ -20,6 +20,7 @@ def create_event():
         date=datetime.fromisoformat(data.get("date")) if data.get("date") else None,
         location=data.get("location"),
         description=data.get("description"),
+        home_id=data.get("home_id")
     )
     db.session.add(new_event)
     db.session.commit()
@@ -35,6 +36,7 @@ def update_event(event_id):
     event.date = datetime.fromisoformat(data.get("date")) if data.get("date") else event.date
     event.location = data.get("location", event.location)
     event.description = data.get("description", event.description)
+    event.home_id = data.get("home_id", event.home_id)
 
     db.session.commit()
     return jsonify(event.to_dict()), 200

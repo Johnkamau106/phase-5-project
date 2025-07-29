@@ -7,6 +7,10 @@ from app.models.user import User
 from app.models.child import Child
 from app.models.event import Event
 from app.models.donation import Donation
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -30,3 +34,7 @@ def create_app():
         db.create_all()
 
     return app
+
+
+# Optional: confirm loaded
+print("ENV:", os.getenv("MPESA_ENVIRONMENT"))

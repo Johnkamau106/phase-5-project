@@ -1,14 +1,18 @@
 # mpesa_service.py
+from flask import Flask, jsonify
+import os
 import requests
 from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
 import base64
 from datetime import datetime
 
-MPESA_CONSUMER_KEY = 'HT7eZ6cE5AinHw6RtuyA01LNrWSJviHLIYvQJU3Nm2tyAlnc'
-MPESA_CONSUMER_SECRET = 'UPgx9soOjSNxsKHL4qwZ6v7vjO3i1IiPKtGIsbHAq1VG0ZayT1eGHaQAFzww6C1L'
-MPESA_SHORTCODE = '174379'
-MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
-MPESA_BASE_URL = 'https://sandbox.safaricom.co.ke'
+MPESA_ENVIRONMENT = os.getenv("MPESA_ENVIRONMENT", "sandbox")
+MPESA_BASE_URL = "https://sandbox.safaricom.co.ke" if MPESA_ENVIRONMENT == "sandbox" else "https://api.safaricom.co.ke"
+MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY")
+MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET")
+MPESA_SHORTCODE = os.getenv("MPESA_SHORTCODE")
+MPESA_PASSKEY = os.getenv("MPESA_PASSKEY")
 
 def get_access_token():
     url = f"{MPESA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials"

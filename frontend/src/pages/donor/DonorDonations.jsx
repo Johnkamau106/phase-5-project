@@ -2,36 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { getDonations } from "../../utils/api"; // adjust path if needed
 
-const DonorDonations = ({ user }) => {
-  const [donations, setDonations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  useEffect(() => {
-    const fetchDonations = async () => {
-      try {
-        const allDonations = await getDonations(); // GET /donations
-        const donorDonations = allDonations.filter(
-          (donation) => donation.donor?.id === user.id
-        );
-
-        setDonations(donorDonations);
-
-        const total = donorDonations.reduce(
-          (sum, donation) => sum + (donation.amount || 0),
-          0
-        );
-        setTotalAmount(total);
-      } catch (err) {
-        setError(err.message || "Failed to fetch donations");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.id) fetchDonations();
-  }, [user]);
+const DonorDonations = ({ user, donations, loading, error }) => {
+  const totalAmount = donations.reduce((sum, donation) => sum + (donation.amount || 0), 0);
 
   return (
     <div>

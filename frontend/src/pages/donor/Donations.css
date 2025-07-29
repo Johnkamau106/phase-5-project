@@ -6,9 +6,10 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 999;
+  overflow-y: auto;
 }
 
 .donation-modal {
@@ -18,8 +19,10 @@
   max-width: 500px;
   width: 90%;
   animation: fadeInUp 0.3s ease;
-  max-height: 80vh;
+  margin-top: 80px;
+  max-height: calc(80vh - 80px);
   overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
 }
 
 @keyframes fadeInUp {

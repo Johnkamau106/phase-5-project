@@ -27,15 +27,45 @@ const DonorDashboard = ({ user }) => {
   const [sponsorError, setSponsorError] = useState("");
   const [sponsorLoading, setSponsorLoading] = useState(false);
   const [allChildren, setAllChildren] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [donationsLoading, setDonationsLoading] = useState(true);
+  const [donationsError, setDonationsError] = useState("");
+
+  const refreshDonations = async () => {
+    setDonationsLoading(true);
+    setDonationsError("");
+    try {
+      const allDonations = await getDonations({}, user?.token);
+      const donorDonations = allDonations.filter(
+        (donation) => donation.donor?.id === user.id
+      );
+      setDonations(donorDonations);
+    } catch (err) {
+      setDonationsError(err.message || "Failed to fetch donations");
+    } finally {
+      setDonationsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.id) refreshDonations();
+  }, [user]);
 
   // Real data
   const totalDonated = 50000;
   const [sponsoredChildren, setSponsoredChildren] = useState([]);
-  const homes = [{ id: 1, name: "Home A" }, { id: 2, name: "Home B" }];
+  const [homes, setHomes] = useState([]);
   const volunteerOpportunities = [
     { id: 1, title: "Help at Home A", home: "Home A", date: "2023-10-10", duration: "2 hours", skills: "Caring, Cooking" },
     { id: 2, title: "Teach at Home B", home: "Home B", date: "2023-10-12", duration: "3 hours", skills: "Teaching, Patience" },
   ];
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/homes`)
+      .then((res) => res.json())
+      .then((data) => setHomes(data))
+      .catch(() => setHomes([]));
+  }, []);
 
   useEffect(() => {
     // Fetch all children from backend
@@ -180,7 +210,13 @@ const DonorDashboard = ({ user }) => {
         )}
         {expandedDonations && (
           <div className="section-header">
-            <h3><i className="fas fa-donate"></i> My Donation History <DonorDonations user={user} /></h3>
+            <h3><i className="fas fa-donate"></i> My Donation History</h3>
+            <DonorDonations 
+              user={user} 
+              donations={donations} 
+              loading={donationsLoading} 
+              error={donationsError} 
+            />
             <button className="btn-primary" onClick={() => setIsDonationModalOpen(true)}><i className="fas fa-plus"></i> Make a Donation</button>
           </div>
         )}
@@ -292,11 +328,24 @@ const DonorDashboard = ({ user }) => {
                 </React.Fragment>
               )}
               {modalStep === 2 && (
-                <Donations donationOutlines={donationOutlines} home={selectedHome} user={user} phoneNumber={phoneNumber} onDonationSuccess={() => {
-                  alert("Thank you for your generous donation!");
-                  setIsDonationModalOpen(false);
-                  setModalStep(1);
-                }} />
+                <Donations 
+                  donationOutlines={donationOutlines} 
+                  home={selectedHome} 
+                  user={user} 
+                  phoneNumber={phoneNumber} 
+                  onDonationSuccess={async (donatedAmount) => {
+                    // Update the contributed amount for the selected home
+                    setHomes(prevHomes => prevHomes.map(h =>
+                      h.id === selectedHome.id
+                        ? { ...h, amountContributed: (h.amountContributed || 0) + Number(donatedAmount) }
+                        : h
+                    ));
+                    await refreshDonations();
+                    alert("Thank you for your generous donation!");
+                    setIsDonationModalOpen(false);
+                    setModalStep(1);
+                  }} 
+                />
               )}
             </div>
           </div>

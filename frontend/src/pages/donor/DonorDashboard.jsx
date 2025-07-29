@@ -55,10 +55,9 @@ const DonorDashboard = ({ user }) => {
   const totalDonated = 50000;
   const [sponsoredChildren, setSponsoredChildren] = useState([]);
   const [homes, setHomes] = useState([]);
-  const volunteerOpportunities = [
-    { id: 1, title: "Help at Home A", home: "Home A", date: "2023-10-10", duration: "2 hours", skills: "Caring, Cooking" },
-    { id: 2, title: "Teach at Home B", home: "Home B", date: "2023-10-12", duration: "3 hours", skills: "Teaching, Patience" },
-  ];
+  const [events, setEvents] = useState([]);
+  const [eventsLoading, setEventsLoading] = useState(false);
+  const [eventsError, setEventsError] = useState("");
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/homes`)
@@ -66,6 +65,22 @@ const DonorDashboard = ({ user }) => {
       .then((data) => setHomes(data))
       .catch(() => setHomes([]));
   }, []);
+
+  // Fetch events when volunteer section is expanded
+  useEffect(() => {
+    if (expandedVolunteer) {
+      setEventsLoading(true);
+      setEventsError("");
+      fetch(`${BASE_URL}/api/events/events`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch events");
+          return res.json();
+        })
+        .then((data) => setEvents(data))
+        .catch((err) => setEventsError(err.message || "Failed to fetch events"))
+        .finally(() => setEventsLoading(false));
+    }
+  }, [expandedVolunteer]);
 
   useEffect(() => {
     // Fetch all children from backend
@@ -205,7 +220,7 @@ const DonorDashboard = ({ user }) => {
       <main className="dashboard-content">
         {expandedSummary && (
           <section className="summary-section">
-            <DonorDashboardSummary totalDonations={totalDonated} sponsoredChildren={sponsoredChildren.length} supportedHomes={homes.length} volunteerVisits={volunteerOpportunities.length} />
+            <DonorDashboardSummary totalDonations={totalDonated} sponsoredChildren={sponsoredChildren.length} supportedHomes={homes.length} volunteerVisits={events.length} />
           </section>
         )}
         {expandedDonations && (
@@ -277,18 +292,45 @@ const DonorDashboard = ({ user }) => {
               <h3><i className="fas fa-hands-helping"></i> Volunteer Opportunities</h3>
             </div>
             <div className="opportunities-list">
-              {volunteerOpportunities.map((opp) => (
-                <div key={opp.id} className="opportunity-card">
-                  <div className="opportunity-info">
-                    <h4>{opp.title}</h4>
-                    <p><i className="fas fa-home"></i> {opp.home}</p>
-                    <p><i className="fas fa-calendar-day"></i> {opp.date}</p>
-                    <p><i className="fas fa-clock"></i> {opp.duration}</p>
-                    <p><i className="fas fa-tools"></i> Skills: {opp.skills}</p>
-                  </div>
-                  <button className="btn-primary"><i className="fas fa-sign-in-alt"></i> Sign Up</button>
-                </div>
-              ))}
+              {eventsLoading ? (
+                <p>Loading events...</p>
+              ) : eventsError ? (
+                <p style={{ color: 'red' }}>{eventsError}</p>
+              ) : events.length === 0 ? (
+                <p>No events available for volunteering at the moment.</p>
+              ) : (
+                events.map((event) => {
+                  const home = homes.find(h => h.id === event.home_id);
+                  return (
+                    <div key={event.id} className="opportunity-card">
+                      <div className="opportunity-info">
+                        <h4>{event.name}</h4>
+                        <p><i className="fas fa-home"></i> {home ? home.name : 'Unknown Home'}</p>
+                        <p><i className="fas fa-calendar-day"></i> {event.date ? new Date(event.date).toLocaleDateString() : 'N/A'}</p>
+                        <p><i className="fas fa-map-marker-alt"></i> {event.location}</p>
+                        <p>{event.description}</p>
+                      </div>
+                      <button className="btn-primary" onClick={async () => {
+                        try {
+                          const res = await fetch(`${BASE_URL}/api/events/events/${event.id}/volunteer`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ user_id: user.id })
+                          });
+                          const data = await res.json();
+                          if (res.ok) {
+                            alert(data.message || 'Successfully volunteered!');
+                          } else {
+                            alert(data.error || data.message || 'Failed to volunteer.');
+                          }
+                        } catch (err) {
+                          alert('Failed to volunteer.');
+                        }
+                      }}><i className="fas fa-sign-in-alt"></i> Volunteer</button>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </section>
         )}

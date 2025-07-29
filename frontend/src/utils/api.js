@@ -178,14 +178,4 @@ export const getDonation = async (donationId, token) => {
   return data;
 };
 
-export const getVolunteerOpportunities = async (token) => {
-  const response = await fetch(`${BASE_URL}/api/volunteer-opportunities`, {
-    headers: {
-      ...(token && { Authorization: `Bearer ${token}` }),
-    },
-  });
-  const data = await response.json();
-  if (!response.ok)
-    throw new Error(data.error || "Failed to fetch volunteer opportunities");
-  return data;
-};
+// Removed getVolunteerOpportunities - not used in the app

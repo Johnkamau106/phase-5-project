@@ -49,3 +49,27 @@ def delete_event(event_id):
     db.session.delete(event)
     db.session.commit()
     return jsonify({"message": "Event deleted"}), 200
+
+# Volunteer for event
+from app.models.event_volunteer import EventVolunteer
+from app.models.user import User
+
+def volunteer_for_event(event_id):
+    data = request.get_json()
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'user_id is required'}), 400
+    event = Event.query.get(event_id)
+    if not event:
+        return jsonify({'error': 'Event not found'}), 404
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    # Check if already volunteered
+    existing = EventVolunteer.query.filter_by(event_id=event_id, user_id=user_id).first()
+    if existing:
+        return jsonify({'message': 'Already volunteered for this event'}), 200
+    volunteer = EventVolunteer(event_id=event_id, user_id=user_id)
+    db.session.add(volunteer)
+    db.session.commit()
+    return jsonify({'message': 'Successfully volunteered for event', 'volunteer': volunteer.to_dict()}), 201

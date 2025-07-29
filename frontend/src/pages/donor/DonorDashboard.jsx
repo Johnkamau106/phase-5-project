@@ -4,11 +4,11 @@ import "./DonorDashboard.css";
 import DonationCard from "./DonationCard";
 import Donations from "./Donations";
 import DonorDonations from "./DonorDonations";
-import ChildCard from "./ChildCard";
 import ChildrenList from "../caregiver/ChildrenList";
 import HomeCard from "./HomeCard";
 import { getDonations, createDonation, BASE_URL } from "../../utils/api";
 import DonorDashboardSummary from "./DashboardSummary";
+import HomesList from "./HomesList";
 
 const donationOutlines = [
   {
@@ -49,6 +49,7 @@ const DonorDashboard = ({ user }) => {
   const [expandedVolunteer, setExpandedVolunteer] = useState(false);
   const [expandedSummary, setExpandedSummary] = useState(true);
   const [expandedChildren, setExpandedChildren] = useState(false);
+  const [expandedHomes, setExpandedHomes] = useState(false);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [donationHistory, setDonationHistory] = useState([]);
   const [totalDonated, setTotalDonated] = useState(0);
@@ -62,6 +63,7 @@ const DonorDashboard = ({ user }) => {
     setExpandedSponsorships(section === "sponsorships");
     setExpandedVolunteer(section === "volunteer");
     setExpandedChildren(section === "children");
+    setExpandedHomes(section === "homes");
     setActiveSection(section);
   };
 
@@ -188,6 +190,12 @@ const DonorDashboard = ({ user }) => {
         >
           <i className="fas fa-hands-helping"></i> Volunteer
         </button>
+        <button
+          className={activeSection === "homes" ? "active" : ""}
+          onClick={() => toggleSection("homes")}
+        >
+          <i className="fas fa-home"></i> Homes
+        </button>
       </nav>
 
       <main className="dashboard-content">
@@ -299,9 +307,7 @@ const DonorDashboard = ({ user }) => {
               </Link>
             </div>
             <div className="children-grid">
-              {sponsoredChildren.map((child) => (
-                <ChildCard key={child.id} child={child} />
-              ))}
+              {/* ChildCard is not used anymore */}
             </div>
           </section>
         )}
@@ -353,6 +359,12 @@ const DonorDashboard = ({ user }) => {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {expandedHomes && (
+          <section className="homes-section">
+            <HomesList />
           </section>
         )}
       </main>

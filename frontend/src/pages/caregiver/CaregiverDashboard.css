@@ -267,6 +267,81 @@
   border-radius: 999px;
   margin-left: 8px;
 }
+
+/* Enroll Child Form */
+.enroll-child-form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.enroll-child-form label {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.enroll-child-form input,
+.enroll-child-form select,
+.enroll-child-form textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+  margin-bottom: 0.7rem;
+  background: #f7fafc;
+  transition: border-color 0.2s;
+}
+
+.enroll-child-form input:focus,
+.enroll-child-form select:focus,
+.enroll-child-form textarea:focus {
+  border-color: #3182ce;
+  outline: none;
+}
+
+.enroll-child-form .form-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.enroll-child-form button {
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 1.1rem 2.5rem;
+  font-size: 1.18rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(67,233,123,0.12);
+}
+
+.enroll-child-form button:hover {
+  background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+  box-shadow: 0 8px 32px rgba(67,233,123,0.18);
+}
+
+.enroll-child-form .error {
+  color: #e53e3e;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
 @keyframes floatOrbs {
   0% { transform: translateY(0) scale(1); opacity: 1; }
   100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }

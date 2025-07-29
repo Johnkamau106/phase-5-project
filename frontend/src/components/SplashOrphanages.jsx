@@ -34,8 +34,8 @@ import React, { useEffect, useState } from 'react';
                   <h2>Featured Orphanages</h2>
                   <div className="orphanage-cards">
                     {orphanages.map((orphanage) => {
-                      const raised = Number(orphanage.raised || 0);
-                      const goal = Number(orphanage.goal || 0);
+                      const raised = Number(orphanage.amountContributed || orphanage.raised || 0);
+                      const goal = Number(orphanage.target || orphanage.goal || 0);
                       const progress = goal > 0 ? Math.min((raised / goal) * 100, 100) : 0;
 
                       return (
@@ -47,16 +47,21 @@ import React, { useEffect, useState } from 'react';
                         >
                           <img src={orphanage.image} alt={orphanage.name} />
                           <h3>{orphanage.name}</h3>
+                          <p className="orphanage-location">
+                            <span role="img" aria-label="location">📍</span> {orphanage.location || 'Location not specified'}
+                          </p>
                           <p>
-                            <strong>Current Need:</strong> {orphanage.need}{' '}
-                            <span className="urgency">({orphanage.urgency})</span>
+                            <strong>Current Need:</strong> {orphanage.needs?.length ? orphanage.needs[0] : orphanage.need || 'N/A'}
+                            {orphanage.urgency && (
+                              <span className="urgency"> ({orphanage.urgency})</span>
+                            )}
                           </p>
                           <p>{orphanage.description}</p>
                           <div className="progress-bar">
                             <div className="progress" style={{ width: `${progress}%` }}></div>
                           </div>
                           <p className="funds">
-                            Raised: ${raised.toLocaleString()} / Goal: ${goal.toLocaleString()}
+                            Raised: KES {raised.toLocaleString()} / Target: KES {goal.toLocaleString()}
                           </p>
                         </div>
                       );

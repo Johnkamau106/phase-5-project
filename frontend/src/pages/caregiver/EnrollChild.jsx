@@ -71,7 +71,7 @@ const EnrollChild = () => {
     <div className="caregiver-dashboard">
       <div className="caregiver-section expanded">
         <div className="section-header">
-          <h3>Enroll New Child</h3>
+          <h3>Add New Need</h3>
         </div>
         <div className="section-content">
           {error && <p className="error-message">{error}</p>}
@@ -156,14 +156,14 @@ const EnrollChild = () => {
                 <option value="">Select Home</option>
                 {homes.map((home) => (
                   <option key={home.id} value={home.id}>
-                    {home.name} ({home.children || 0} children)
+                    {home.name} ({home.children || 0} current need)
                   </option>
                 ))}
               </select>
             </div>
             <div className="form-actions">
               <button type="submit" className="btn-primary">
-                Enroll Child
+                Save
               </button>
               <button
                 type="button"

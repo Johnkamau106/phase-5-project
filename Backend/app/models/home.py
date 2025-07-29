@@ -13,8 +13,11 @@ class Home(db.Model):
     email = db.Column(db.String(100))
     website = db.Column(db.String(100))
     logo = db.Column(db.String(200))
+    image = db.Column(db.String(300))  # Image URL for home card
     capacity = db.Column(db.Integer)
     current_children = db.Column(db.Integer, default=0)
+    amountContributed = db.Column(db.Float, default=0.0)
+    target = db.Column(db.Float, default=0.0)
     needs = db.Column(db.Text)  # JSON list of needs
 
     # Bank details for donations
@@ -34,8 +37,11 @@ class Home(db.Model):
             'email': self.email,
             'website': self.website,
             'logo': self.logo,
+            'image': self.image,
             'capacity': self.capacity,
             'current_children': self.current_children,
+            'amountContributed': self.amountContributed,
+            'target': self.target,
             'needs': self.needs.split(',') if self.needs else [],
             'bank_details': {
                 'bank_name': self.bank_name,

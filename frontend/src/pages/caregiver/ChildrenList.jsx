@@ -69,7 +69,7 @@ const ChildrenList = ({ readOnly = false }) => {
   return (
     <div className="children-list">
       <h3>
-        {readOnly ? "🧒 Children You Support" : "🧒 Children in Your Care"}
+        {readOnly ? "🧒 Current Needs You Support" : "🧒 Current Needs in Your Care"}
       </h3>
 
       <div className="view-toggle">
@@ -93,7 +93,7 @@ const ChildrenList = ({ readOnly = false }) => {
         <table className="children-table">
           <thead>
             <tr>
-              <th>Photo</th>
+              <th>Image URL</th>
               <th>Name</th>
               <th>Birthdate</th>
               <th>Age</th>

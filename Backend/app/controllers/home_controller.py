@@ -18,7 +18,10 @@ def create_home():
         email=data.get('email'),
         website=data.get('website'),
         logo=data.get('logo'),
+        image=data.get('image'),
         capacity=data.get('capacity', 0),
+        amountContributed=data.get('amountContributed', 0.0),
+        target=data.get('target', 0.0),
         needs=','.join(data.get('needs', [])),
         bank_name=data.get('bank_name'),
         account_name=data.get('account_name'),
@@ -67,8 +70,14 @@ def update_home(home_id):
         home.website = data['website']
     if 'logo' in data:
         home.logo = data['logo']
+    if 'image' in data:
+        home.image = data['image']
     if 'capacity' in data:
         home.capacity = data['capacity']
+    if 'amountContributed' in data:
+        home.amountContributed = data['amountContributed']
+    if 'target' in data:
+        home.target = data['target']
     if 'needs' in data:
         home.needs = ','.join(data['needs'])
     if 'bank_name' in data:
@@ -94,3 +103,11 @@ def delete_home(home_id):
     db.session.commit()
 
     return jsonify({'message': 'Home deleted successfully'}), 200
+
+def get_home_children(home_id):
+    home = Home.query.get(home_id)
+    if not home:
+        return jsonify({'error': 'Home not found'}), 404
+
+    children = home.children
+    return jsonify([child.to_dict() for child in children]), 200

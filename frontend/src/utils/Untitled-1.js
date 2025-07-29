@@ -83,7 +83,7 @@
 //     }
 //   };
 // };
-export const BASE_URL = "http://localhost:5555"; // Change if deployed
+export const BASE_URL = "http://localhost:5000"; // Change if deployed
 
 export const loginUser = async ({ email, password }) => {
   try {

@@ -7,7 +7,12 @@ const SplashHeroSection = () => {
       <div className="hero-content">
         <h1>Support Children. Empower Futures.</h1>
         <p>Connecting hearts with homes that need help the most.</p>
-        <a href="#get-started" className="hero-button">Get Started</a>
+        <button
+          className="hero-button"
+          onClick={() => window.location.href = '/login'}
+        >
+          Get Started
+        </button>
       </div>
     </section>
   );

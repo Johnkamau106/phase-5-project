@@ -1,0 +1,32 @@
+.need-card {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  width: 300px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.need-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.need-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.need-content h4 {
+  font-size: 20px;
+  margin: 10px 0 5px;
+}
+
+.need-description {
+  font-size: 14px;
+  margin: 5px 0;
+}

@@ -14,7 +14,7 @@ class User(db.Model):
     address = db.Column(db.String(200))
     bio = db.Column(db.Text)
     avatar = db.Column(db.String(300))
-    roles = db.Column(db.String(200))  # Store as comma-separated string
+    roles = db.Column(db.String(200), default='donor')  # Store as comma-separated string
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login = db.Column(db.DateTime)
 

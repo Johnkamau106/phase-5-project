@@ -47,13 +47,7 @@ const AdminDashboard = () => {
           />
         );
       case "homes":
-        return (
-          <AdminHomes
-            expanded={expandedSections.homes}
-            toggleSection={() => toggleSection("homes")}
-            onHomeCountChange={handleHomeCountUpdate}
-          />
-        );
+        return <AdminHomes onHomeCountChange={handleHomeCountUpdate} />;
       case "donations":
         return (
           <AdminDonations

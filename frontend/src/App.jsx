@@ -17,6 +17,7 @@ import EnrollChild from './pages/caregiver/EnrollChild';
 import HomesList from './pages/donor/HomesList';
 import HomeNeeds from './pages/donor/HomeNeeds';
 import './App.css';
+import FAQ from './pages/faq/FAQ.jsx';
 
 const App = () => {
   const [user, setUser] = useState(() => getUserFromLocalStorage());
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/" element={<Splash />} />
         <Route path="/login" element={<AuthPage onLogin={setUser} />} />
         <Route path="/home" element={<HomePage user={user} />} />
+        <Route path="/faq" element={<FAQ />} />
 
         {/* Private routes */}
         {user ? (

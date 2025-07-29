@@ -75,10 +75,10 @@ const HomeDetail = () => {
   return (
     <div className="home-detail-container">
       {/* Banner */}
-      {home.banner && (
+      {(home.banner || home.image) && (
         <div className="home-banner">
           <img
-            src={home.banner}
+            src={home.banner || home.image}
             alt={`${home.name} banner`}
             className="banner-img"
           />
@@ -88,7 +88,7 @@ const HomeDetail = () => {
       {/* Avatar + Basic Info */}
       <div className="home-header">
         <img
-          src={home.logo || home.avatar}
+          src={home.logo || home.avatar || home.image}
           alt={`${home.name} logo`}
           className="avatar-img"
         />
@@ -237,7 +237,14 @@ const HomeDetail = () => {
               donationOutlines={donationOutlines}
               home={home}
               user={user}
-              onDonationSuccess={() => {
+              onDonationSuccess={async () => {
+                // Refetch home data after donation
+                try {
+                  const res = await fetch(`${BASE_URL}/api/homes/${id}`);
+                  if (!res.ok) throw new Error("Failed to fetch home details");
+                  const updatedHome = await res.json();
+                  setHome(updatedHome);
+                } catch (e) {}
                 alert("Thank you for your generous donation!");
                 setIsDonationModalOpen(false);
               }}

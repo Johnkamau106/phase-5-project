@@ -1,0 +1,267 @@
+/* DonorDashboard.css */
+
+.donor-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #fff9f3, #f0f4ff);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.8s ease;
+}
+
+/* Header */
+
+.donor-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-content h2 {
+  font-size: 2.5rem;
+  color: #564d65;
+}
+
+.header-content {
+  color: #514c83;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Navigation */
+
+.dashboard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.dashboard-nav button {
+  background: #e5ecf6;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3e3a59;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(80, 80, 80, 0.06);
+}
+
+.dashboard-nav button:hover {
+  background: #cddaf2;
+  transform: translateY(-2px);
+}
+
+.dashboard-nav button.active {
+  background: #aebbe5;
+  color: white;
+}
+
+/* Section Headers */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  color: #444360;
+}
+
+.btn-primary {
+  background: #5a67d8;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #434190;
+}
+
+/* Cards */
+
+.donation-list,
+.children-grid,
+.opportunities-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.donation-list {
+  grid-template-columns: 1fr;
+}
+
+.children-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.opportunities-list {
+  grid-template-columns: 1fr;
+}
+
+/* Summary & Actions */
+
+.donation-summary,
+.sponsorship-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.summary-card {
+  background: #ffffff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+  text-align: center;
+  min-width: 180px;
+}
+
+.amount {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #6b46c1;
+}
+
+.impact {
+  font-size: 1.1rem;
+  color: #48bb78;
+}
+
+.btn-secondary {
+  background: #edf2f7;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+/* Volunteer Form */
+
+.visit-form {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f7fafc;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.visit-form h4 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #4a5568;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+button[type='submit'] {
+  margin-top: 1rem;
+}
+
+/* Fade animation */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* === Futuristic Gradient Background Animation === */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.donor-dashboard {
+  position: relative;
+  background: linear-gradient(-45deg, #ffe4ec, #e0f7ff, #f7ffe0, #f0e4ff);
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Floating glowing orbs */
+@keyframes floatOrb {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1.3);
+    opacity: 0;
+  }
+}
+
+.floating-orb {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 50%;
+  animation: floatOrb 30s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Position several orbs */
+.floating-orb:nth-child(1) { left: 15%; animation-delay: 0s; }
+.floating-orb:nth-child(2) { left: 35%; animation-delay: 5s; }
+.floating-orb:nth-child(3) { left: 60%; animation-delay: 10s; }
+.floating-orb:nth-child(4) { left: 80%; animation-delay: 3s; }
+.floating-orb:nth-child(5) { left: 90%; animation-delay: 8s; }

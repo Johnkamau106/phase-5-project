@@ -1,16 +1,13 @@
 from flask import Blueprint, request, jsonify
-from app.models import MedicalRecord, Child, User
+from app.models import MedicalRecord, Child
 from app.extensions import db
 from datetime import datetime
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 medical_bp = Blueprint('medical', __name__, url_prefix='/api/medical-records')
 
 @medical_bp.route('/child/<int:child_id>', methods=['POST'])
-@jwt_required()
 def create_medical_record(child_id):
     """Create a new medical record for a child"""
-    current_user = get_jwt_identity()
     data = request.get_json()
     
     if not Child.query.get(child_id):
@@ -28,7 +25,7 @@ def create_medical_record(child_id):
             prescription=data.get('prescription'),
             notes=data.get('notes'),
             follow_up_date=follow_up_date,
-            recorded_by=current_user['id']
+            recorded_by=None  # No user identity used
         )
         
         db.session.add(record)
@@ -44,7 +41,6 @@ def create_medical_record(child_id):
         return jsonify({"error": str(e)}), 400
 
 @medical_bp.route('/child/<int:child_id>', methods=['GET'])
-@jwt_required()
 def get_child_medical_records(child_id):
     """Get all medical records for a specific child"""
     records = MedicalRecord.query.filter_by(child_id=child_id)\
@@ -53,17 +49,14 @@ def get_child_medical_records(child_id):
     return jsonify([record.to_dict() for record in records])
 
 @medical_bp.route('/<int:record_id>', methods=['GET'])
-@jwt_required()
 def get_medical_record(record_id):
     """Get a specific medical record"""
     record = MedicalRecord.query.get_or_404(record_id)
     return jsonify(record.to_dict())
 
 @medical_bp.route('/<int:record_id>', methods=['PUT'])
-@jwt_required()
 def update_medical_record(record_id):
     """Update a medical record"""
-    current_user = get_jwt_identity()
     record = MedicalRecord.query.get_or_404(record_id)
     data = request.get_json()
     
@@ -90,7 +83,6 @@ def update_medical_record(record_id):
         return jsonify({"error": str(e)}), 400
 
 @medical_bp.route('/<int:record_id>', methods=['DELETE'])
-@jwt_required()
 def delete_medical_record(record_id):
     """Delete a medical record"""
     record = MedicalRecord.query.get_or_404(record_id)
@@ -101,7 +93,6 @@ def delete_medical_record(record_id):
     return jsonify({"message": "Medical record deleted successfully"}), 200
 
 @medical_bp.route('/search', methods=['GET'])
-@jwt_required()
 def search_medical_records():
     """Search medical records with filters"""
     diagnosis = request.args.get('diagnosis')

@@ -14,7 +14,7 @@ class MedicalRecord(db.Model):
     follow_up_date = db.Column(db.Date)
     recorded_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    child = db.relationship('Child', backref='medical_records')
+    # Relationships
     staff = db.relationship('User', backref='recorded_medical')
 
     def to_dict(self):
@@ -28,6 +28,8 @@ class MedicalRecord(db.Model):
             "notes": self.notes,
             "followUpDate": self.follow_up_date.isoformat() if self.follow_up_date else None,
             "recordedById": self.recorded_by,
-            "child": self.child.to_dict() if self.child else None,
+            # Skip full child to prevent recursion
+            # Or you can do:
+            # "childName": f"{self.child.first_name} {self.child.last_name}" if self.child else None,
             "staff": self.staff.to_dict() if self.staff else None
         }

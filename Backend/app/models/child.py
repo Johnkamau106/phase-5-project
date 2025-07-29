@@ -26,6 +26,8 @@ class Child(db.Model):
     home = db.relationship('Home', backref='children')
     sponsor = db.relationship('User', backref='sponsored_children')
     education_records = db.relationship('EducationRecord', backref='child', cascade="all, delete-orphan")
+    medical_records = db.relationship('MedicalRecord', backref='child', cascade='all, delete-orphan')
+    
 
     def to_dict(self):
         return {
@@ -46,7 +48,8 @@ class Child(db.Model):
             "sponsorshipDetails": self.sponsorship_details,
             "home": self.home.to_dict() if self.home else None,
             "sponsor": self.sponsor.to_dict() if self.sponsor else None,
-            "educationRecords": [record.to_dict() for record in self.education_records]
+            "educationRecords": [record.to_dict() for record in self.education_records],
+            "medicalRecords": [record.to_dict() for record in self.medical_records]  # ✅ added this line
         }
 
     def calculate_age(self):

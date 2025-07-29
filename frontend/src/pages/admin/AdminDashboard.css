@@ -496,6 +496,11 @@
   background-color: #e6f0ff;
 }
 
+/* Lighter text color for donation status and home names in donor donation table */
+.users-table tbody tr td {
+  color: #6c757d; /* lighter gray similar to admin dashboard lists */
+}
+
 .users-table .actions button,
 .admin-dashboard table .actions button {
   margin-right: 8px;

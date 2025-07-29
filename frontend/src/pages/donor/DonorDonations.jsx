@@ -1,6 +1,7 @@
 // src/pages/donor/DonorDonations.jsx
 import React, { useEffect, useState } from "react";
 import { getDonations } from "../../utils/api"; // adjust path if needed
+import "../../pages/admin/AdminDashboard.css";
 
 const DonorDonations = ({ user }) => {
   const [donations, setDonations] = useState([]);
@@ -48,7 +49,7 @@ const DonorDonations = ({ user }) => {
           <p>
             <strong>Total Donated:</strong> KES {totalAmount.toFixed(2)}
           </p>
-          <table>
+          <table className="users-table">
             <thead>
               <tr>
                 <th>Amount (KES)</th>

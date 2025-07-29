@@ -1,3 +1,19 @@
+/* --- Admin Header --- */
+.admin-header {
+  padding: 20px 0;
+  margin: 0 6rem 20px 6rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 /* --- Profile Container --- */
 .profile-container {
   padding: 60px 24px;

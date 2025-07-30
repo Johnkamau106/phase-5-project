@@ -7,7 +7,7 @@ class Event(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String(200))
     description = db.Column(db.Text)
-    home_id = db.Column(db.Integer, db.ForeignKey('home.id'), nullable=True)
+    home_id = db.Column(db.Integer, db.ForeignKey('homes.id'), nullable=True)
 
     def to_dict(self):
         return {

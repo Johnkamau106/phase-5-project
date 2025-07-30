@@ -21,7 +21,13 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "*"}})
+    cors.init_app(app, supports_credentials=True, resources={r"/*": {
+        "origins": [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "https://phase-5-project-sakawas-projects.vercel.app"
+        ]
+    }})
 
     # Register blueprints
     app.register_blueprint(user_routes.user_bp, url_prefix='/api')

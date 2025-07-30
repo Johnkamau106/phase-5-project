@@ -83,7 +83,7 @@
 //     }
 //   };
 // };
-export const BASE_URL = "http://localhost:5000"; // Change if deployed
+export const BASE_URL = "https://phase-5-project-24.onrender.com";
 
 export const loginUser = async ({ email, password }) => {
   try {

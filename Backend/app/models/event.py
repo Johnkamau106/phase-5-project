@@ -7,6 +7,7 @@ class Event(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String(200))
     description = db.Column(db.Text)
+    home_id = db.Column(db.Integer, db.ForeignKey('home.id'), nullable=True)
 
     def to_dict(self):
         return {
@@ -15,4 +16,5 @@ class Event(db.Model):
             "date": self.date.isoformat() if self.date else None,
             "location": self.location,
             "description": self.description,
+            "home_id": self.home_id,
         }

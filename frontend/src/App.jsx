@@ -14,7 +14,10 @@ import Profile from './pages/profile/Profile';
 import AuthPage from './pages/login/Login'; // or your correct path
 import EventsPage from './pages/events/EventsPage';
 import EnrollChild from './pages/caregiver/EnrollChild';
+import HomesList from './pages/donor/HomesList';
+import HomeNeeds from './pages/donor/HomeNeeds';
 import './App.css';
+import FAQ from './pages/faq/FAQ.jsx';
 
 const App = () => {
   const [user, setUser] = useState(() => getUserFromLocalStorage());
@@ -24,6 +27,7 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     localStorage.clear();
+    window.location.href = '/';
   };
 
   const renderDashboard = () => {
@@ -46,11 +50,12 @@ const App = () => {
         {/* Public routes */}
         <Route path="/" element={<Splash />} />
         <Route path="/login" element={<AuthPage onLogin={setUser} />} />
+        <Route path="/home" element={<HomePage user={user} />} />
+        <Route path="/faq" element={<FAQ />} />
 
         {/* Private routes */}
         {user ? (
           <>
-            <Route path="/home" element={<HomePage user={user} />} />
             <Route path="/homes/:id" element={<HomeDetail user={user} />} />
             <Route path="/donations" element={<Donations user={user} />} />
             <Route path="/dashboard" element={renderDashboard()} />
@@ -60,6 +65,8 @@ const App = () => {
             <Route path="/donor" element={<DonorDashboard user={user} />} />
             <Route path="/profile" element={<Profile user={currentUser} />} />
             <Route path="/events" element={<EventsPage />} />
+            <Route path="/donor/homes" element={<HomesList />} />
+            <Route path="/donor/homes/:homeId/needs" element={<HomeNeeds />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

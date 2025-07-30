@@ -3,18 +3,20 @@ import { BASE_URL } from "../../utils/api";
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
+  const [homes, setHomes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [newEvent, setNewEvent] = useState({ name: "", date: "", location: "", description: "" });
+  const [newEvent, setNewEvent] = useState({ name: "", date: "", location: "", description: "", home_id: "" });
   const [editingEvent, setEditingEvent] = useState(null);
 
   useEffect(() => {
     fetchEvents();
+    fetchHomes();
   }, []);
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/events`);
+      const response = await fetch(`${BASE_URL}/api/events/events`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -24,6 +26,17 @@ const AdminEvents = () => {
       setError(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchHomes = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/homes`);
+      if (!response.ok) throw new Error("Failed to fetch homes");
+      const data = await response.json();
+      setHomes(data);
+    } catch (e) {
+      setHomes([]);
     }
   };
 
@@ -38,7 +51,7 @@ const AdminEvents = () => {
 
   const handleAddEvent = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/events`, {
+      const response = await fetch(`${BASE_URL}/api/events/events`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEvent),
@@ -46,7 +59,7 @@ const AdminEvents = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      setNewEvent({ name: "", date: "", location: "", description: "" });
+      setNewEvent({ name: "", date: "", location: "", description: "", home_id: "" });
       fetchEvents();
     } catch (error) {
       setError(error);
@@ -59,7 +72,7 @@ const AdminEvents = () => {
 
   const handleUpdateEvent = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/events/${editingEvent.id}`, {
+      const response = await fetch(`${BASE_URL}/api/events/events/${editingEvent.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingEvent),
@@ -77,7 +90,7 @@ const AdminEvents = () => {
   const handleDeleteEvent = async (id) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        const response = await fetch(`${BASE_URL}/api/events/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/events/events/${id}`, {
           method: "DELETE",
         });
         if (!response.ok) {
@@ -126,6 +139,17 @@ const AdminEvents = () => {
           value={editingEvent ? editingEvent.location : newEvent.location}
           onChange={handleInputChange}
         />
+        <select
+          name="home_id"
+          value={editingEvent ? editingEvent.home_id : newEvent.home_id}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select Orphanage</option>
+          {homes.map((home) => (
+            <option key={home.id} value={home.id}>{home.name}</option>
+          ))}
+        </select>
         <textarea
           name="description"
           placeholder="Description"
@@ -153,6 +177,7 @@ const AdminEvents = () => {
               <th>Date</th>
               <th>Location</th>
               <th>Description</th>
+              <th>Orphanage</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -163,6 +188,7 @@ const AdminEvents = () => {
                 <td>{new Date(event.date).toLocaleDateString()}</td>
                 <td>{event.location}</td>
                 <td>{event.description}</td>
+                <td>{homes.find(h => h.id === event.home_id)?.name || "-"}</td>
                 <td>
                   <button onClick={() => handleEditClick(event)}>Edit</button>
                   <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>

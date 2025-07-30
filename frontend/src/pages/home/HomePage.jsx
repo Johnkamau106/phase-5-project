@@ -7,6 +7,7 @@ import { BASE_URL } from "../../utils/api";
 
 const HomePage = () => {
   const [homes, setHomes] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/homes`)
@@ -14,6 +15,14 @@ const HomePage = () => {
       .then(data => setHomes(data))
       .catch(err => console.error(err));
   }, []);
+
+  // Filter homes by search query (name or location)
+  const filteredHomes = homes.filter(
+    (home) =>
+      home.name.toLowerCase().includes(search.toLowerCase()) ||
+      home.location.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="homepage">
       <section className="intro">
@@ -42,13 +51,26 @@ const HomePage = () => {
         </div>
       </section>
 
-
       <section className="homes">
         <h3 className="section-title">Featured Children's Homes</h3>
+        <div style={{ marginBottom: 16 }}>
+          <input
+            type="text"
+            placeholder="Search by name or location..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{ padding: 8, width: 250, marginRight: 8 }}
+          />
+          <button onClick={() => {}} style={{ padding: 8 }}>Search</button>
+        </div>
         <div className="home-list">
-          {homes.map(home => (
-            <HomeCard key={home.id} home={home} id={home.id} />
-          ))}
+          {filteredHomes.length === 0 ? (
+            <div>No homes found.</div>
+          ) : (
+            filteredHomes.map(home => (
+              <HomeCard key={home.id} home={home} id={home.id} />
+            ))
+          )}
         </div>
       </section>
 

@@ -21,7 +21,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, resources={r"/*": {"origins": "*"}})
 
     # Register blueprints
     app.register_blueprint(user_routes.user_bp, url_prefix='/api')

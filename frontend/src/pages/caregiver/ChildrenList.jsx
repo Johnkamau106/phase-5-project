@@ -12,15 +12,22 @@ const calculateAge = (birthdate) => {
   return age;
 };
 
-const ChildrenList = ({ readOnly = false }) => {
+const ChildrenList = ({
+  readOnly = false,
+  sponsorMode = false,
+  handleSponsor,
+  sponsorLoading = false,
+  children: childrenProp
+}) => {
   const [view, setView] = useState("table");
-  const [children, setChildren] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [children, setChildren] = useState(childrenProp || []);
+  const [loading, setLoading] = useState(!childrenProp);
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editingChild, setEditingChild] = useState(null);
 
   const fetchChildren = async () => {
+    if (childrenProp) return; // Don't fetch if children are provided via props
     try {
       const response = await fetch(`${BASE_URL}/api/children`);
       if (!response.ok)
@@ -60,8 +67,12 @@ const ChildrenList = ({ readOnly = false }) => {
   };
 
   useEffect(() => {
-    fetchChildren();
-  }, []);
+    if (!childrenProp) fetchChildren();
+    else {
+      setChildren(childrenProp);
+      setLoading(false);
+    }
+  }, [childrenProp]);
 
   if (loading) return <div>Loading children...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -69,7 +80,7 @@ const ChildrenList = ({ readOnly = false }) => {
   return (
     <div className="children-list">
       <h3>
-        {readOnly ? "🧒 Children You Support" : "🧒 Children in Your Care"}
+        {readOnly ? "🧒 Current Needs You Support" : "🧒 Current Needs in Your Care"}
       </h3>
 
       <div className="view-toggle">
@@ -93,7 +104,7 @@ const ChildrenList = ({ readOnly = false }) => {
         <table className="children-table">
           <thead>
             <tr>
-              <th>Photo</th>
+              <th>Image URL</th>
               <th>Name</th>
               <th>Birthdate</th>
               <th>Age</th>
@@ -101,7 +112,8 @@ const ChildrenList = ({ readOnly = false }) => {
               <th>Health</th>
               <th>Home</th>
               <th>Notes</th>
-              {!readOnly && <th>Actions</th>}
+              {!readOnly && !sponsorMode && <th>Actions</th>}
+              {sponsorMode && <th>Sponsor</th>}
             </tr>
           </thead>
           <tbody>
@@ -114,14 +126,14 @@ const ChildrenList = ({ readOnly = false }) => {
                     className="table-photo"
                   />
                 </td>
-                <td>{child.name}</td>
-                <td>{child.birthdate}</td>
-                <td>{calculateAge(child.birthdate)}</td>
+                <td>{child.fullName || child.name}</td>
+                <td>{child.dateOfBirth || child.birthdate}</td>
+                <td>{child.age !== undefined ? child.age : calculateAge(child.dateOfBirth || child.birthdate)}</td>
                 <td>{child.gender}</td>
-                <td>{child.healthStatus}</td>
-                <td>{child.home?.name || ""}</td>
-                <td>{child.notes}</td>
-                {!readOnly && (
+                <td>{child.healthStatus || child.health_status}</td>
+                <td>{child.home?.name || child.home_name || ""}</td>
+                <td>{child.background || child.notes}</td>
+                {!readOnly && !sponsorMode && (
                   <td>
                     <button className="btn-view">View</button>
                     <button
@@ -135,6 +147,17 @@ const ChildrenList = ({ readOnly = false }) => {
                       onClick={() => handleDelete(child.id)}
                     >
                       Delete
+                    </button>
+                  </td>
+                )}
+                {sponsorMode && (
+                  <td>
+                    <button
+                      className="btn-primary"
+                      disabled={child.isSponsored || sponsorLoading}
+                      onClick={() => handleSponsor(child.id)}
+                    >
+                      {child.isSponsored ? "Sponsored" : sponsorLoading ? "Processing..." : "Sponsor"}
                     </button>
                   </td>
                 )}

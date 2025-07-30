@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { BASE_URL } from "../../utils/api";
 import { useLocation } from "react-router-dom";
 import { getUserFromLocalStorage } from "../../utils/auth";
+import SponsoredChildrenSection from "./SponsoredChildrenSection";
+import DonationsSection from "./DonationsSection";
 import "./Profile.css";
 
 const Profile = ({ user }) => {
@@ -232,25 +234,11 @@ const Profile = ({ user }) => {
         );
       case "sponsored":
         return (
-          <div className="profile-section">
-            <h3>My Sponsored Children</h3>
-            <div className="empty-state">
-              <p>No children sponsored yet.</p>
-              <button className="primary-button">
-                Find Children to Sponsor
-              </button>
-            </div>
-          </div>
+          <SponsoredChildrenSection user={currentUser} />
         );
       case "donations":
         return (
-          <div className="profile-section">
-            <h3>Donations History</h3>
-            <div className="empty-state">
-              <p>No donations made yet.</p>
-              <button className="primary-button">Make a Donation</button>
-            </div>
-          </div>
+          <DonationsSection user={currentUser} />
         );
       case "children":
         return (

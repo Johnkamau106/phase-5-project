@@ -83,7 +83,7 @@
 //     }
 //   };
 // };
-export const BASE_URL = "http://localhost:5555"; // Change if deployed
+export const BASE_URL = "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app";
 
 export const loginUser = async ({ email, password }) => {
   try {
@@ -178,14 +178,4 @@ export const getDonation = async (donationId, token) => {
   return data;
 };
 
-export const getVolunteerOpportunities = async (token) => {
-  const response = await fetch(`${BASE_URL}/api/volunteer-opportunities`, {
-    headers: {
-      ...(token && { Authorization: `Bearer ${token}` }),
-    },
-  });
-  const data = await response.json();
-  if (!response.ok)
-    throw new Error(data.error || "Failed to fetch volunteer opportunities");
-  return data;
-};
+// Removed getVolunteerOpportunities - not used in the app

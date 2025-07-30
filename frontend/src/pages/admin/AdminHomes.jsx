@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../utils/api";
+import "./AdminHomes.css";
 
 const initialForm = {
   name: "",
   location: "",
   children: "",
   description: "",
+  amountContributed: "",
+  target: "",
+  needs: [],
+  newNeed: "",
+  image: "",
 };
 
 const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
@@ -33,6 +39,24 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleNeedAdd = (e) => {
+    e.preventDefault();
+    if (form.newNeed.trim()) {
+      setForm({
+        ...form,
+        needs: [...form.needs, form.newNeed.trim()],
+        newNeed: "",
+      });
+    }
+  };
+
+  const handleNeedRemove = (idx) => {
+    setForm({
+      ...form,
+      needs: form.needs.filter((_, i) => i !== idx),
+    });
+  };
+
   const handleAdd = () => {
     setForm(initialForm);
     setEditingId(null);
@@ -45,6 +69,11 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
       location: home.location || "",
       children: home.children || "",
       description: home.description || "",
+      amountContributed: home.amountContributed || "",
+      target: home.target || "",
+      needs: Array.isArray(home.needs) ? home.needs : [],
+      newNeed: "",
+      image: home.image || "",
     });
     setEditingId(home.id);
     setShowForm(true);
@@ -62,10 +91,12 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
     const url = editingId
       ? `${BASE_URL}/api/homes/${editingId}`
       : `${BASE_URL}/api/homes`;
+    const submitForm = { ...form };
+    delete submitForm.newNeed;
     await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(submitForm),
     });
     setShowForm(false);
     fetchHomes();
@@ -85,10 +116,13 @@ const AdminHomes = ({ expanded, toggleSection, onHomeCountChange }) => {
       <table>
         <thead>
           <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Location</th>
-            <th>Children</th>
+            <th>Current Needs</th>
             <th>Description</th>
+            <th>Amount Contributed</th>
+            <th>Target</th>
             <th>Actions</th>
           </tr>
         </thead>

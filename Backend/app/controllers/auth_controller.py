@@ -15,9 +15,10 @@ def login():
 
     user = User.query.filter_by(email=email).first()
     if user and user.check_password(password):
+        token = generate_token(user.id)
         user_data = user.to_dict()
-        user_data["token"] = generate_token(user.id)
-        return jsonify({"success": True, "user": user_data})
+        user_data["token"] = token
+        return jsonify({"success": True, "user": user_data, "token": token})
     return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
 @auth_bp.route("/register", methods=["POST"])
@@ -41,10 +42,11 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
+    token = generate_token(new_user.id)
     user_data = new_user.to_dict()
-    user_data["token"] = generate_token(new_user.id)
+    user_data["token"] = token
 
-    return jsonify({"success": True, "user": user_data}), 201
+    return jsonify({"success": True, "user": user_data, "token": token}), 201
 
 def refresh():
     # Will be implemented with JWT

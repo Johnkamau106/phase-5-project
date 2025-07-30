@@ -15,11 +15,36 @@ def create_app():
     def index():
         return "Backend is running"
 
+    @app.after_request
+    def add_cors_headers(response):
+        allowed_origins = [
+            "http://localhost:5173",
+            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app"
+        ]
+        origin = request.headers.get("Origin")
+        if origin in allowed_origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+        response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
+        return response
+
+    @app.route('/<path:path>', methods=['OPTIONS'])
+    def options_handler(path):
+        return '', 204
+
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "*"}})
+    cors.init_app(
+        app,
+        resources={r"/*": {"origins": [
+            "http://localhost:5173",
+            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app"
+        ]}},
+        supports_credentials=True
+    )
 
     # Register blueprints
     app.register_blueprint(user_routes.user_bp, url_prefix='/api')

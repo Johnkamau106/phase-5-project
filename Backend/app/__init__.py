@@ -1,5 +1,5 @@
 # app/__init__.py
-from flask import Flask
+from flask import Flask, request
 from app.config import Config
 from app.extensions import db, migrate, jwt, cors
 from app.routes import user_routes, auth_routes, child_routes, event_routes, home_routes, donation_routes

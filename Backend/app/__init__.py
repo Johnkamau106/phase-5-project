@@ -19,7 +19,8 @@ def create_app():
     def add_cors_headers(response):
         allowed_origins = [
             "http://localhost:5173",
-            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app"
+            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app",
+            "https://hope-haven-orphanage.netlify.app"
         ]
         origin = request.headers.get("Origin")
         if origin in allowed_origins:
@@ -41,7 +42,8 @@ def create_app():
         app,
         resources={r"/*": {"origins": [
             "http://localhost:5173",
-            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app"
+            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app",
+            "https://hope-haven-orphanage.netlify.app"
         ]}},
         supports_credentials=True
     )

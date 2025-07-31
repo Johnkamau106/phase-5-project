@@ -56,6 +56,7 @@ frontend/   # React frontend (Vite)
 4. Set the start command: `python Backend/run.py`
 5. Set environment variables as needed.
 6. Deploy.
+7. #postman link: https://app.getpostman.com/join-team?invite_code=77ab37a49d97e193fa77889ef7806c61dd66e23f503168cace8b42f47b8bf86c&target_code=d1c75b438c341e5b8def6221c036042a 
 
 ### Connecting Frontend and Backend
 - After deploying the backend, update the API URLs in `frontend/src/utils/api.js` to point to your backend's deployed URL.
@@ -63,3 +64,4 @@ frontend/   # React frontend (Vite)
 
 ## License
 MIT
+#

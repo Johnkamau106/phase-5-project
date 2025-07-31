@@ -83,7 +83,7 @@
 //     }
 //   };
 // };
-export const BASE_URL = "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app";
+export const BASE_URL = "https://phase-5-project-24.onrender.com";
 
 export const loginUser = async ({ email, password }) => {
   try {

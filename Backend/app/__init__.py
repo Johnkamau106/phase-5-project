@@ -40,7 +40,11 @@ def create_app():
     jwt.init_app(app)
     cors.init_app(
         app,
-        resources={r"/*": {"origins": '*'}},
+        resources={r"/*": {"origins": [
+            "http://localhost:5173",
+            "https://phase-5-project-hbsk-9tb0hdeau-john-kamaus-projects-c0b9c885.vercel.app",
+            "https://hope-haven-orphanage.netlify.app"
+        ]}},
         supports_credentials=True
     )
 

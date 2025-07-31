@@ -19,7 +19,7 @@ def create_app():
     def add_cors_headers(response):
         allowed_origins = '*'
         origin = request.headers.get("Origin")
-        if origin in allowed_origins:
+        if origin and origin in allowed_origins:
             response.headers["Access-Control-Allow-Origin"] = origin
         response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
